@@ -1,85 +1,105 @@
 # typescript-clean-arch-template
 
-## General
+## Usage
 
-Install packages
+Usage template with yarn
 
 ```bash
-$ yarn install
+  yarn install
 ```
 
-## Develop
+## Environment Variables
+
+You will need to add `.env` file based in `.env.example` file.
+
+## Development
+
+To deploy this project run
 
 To run all development env
 
 ```bash
-$ yarn dev:app
+ yarn dev:app
 ```
 
 To run app with watch
 
 ```bash
-$ yarn dev:app-watch
+ yarn dev:app-watch
 ```
 
 To run development infra with docker compose
 
 ```bash
-$ yarn dev:infra
+ yarn dev:infra
 ```
 
 To run type check
 
 ```bash
-$ yarn type-check
+ yarn type-check
 ```
 
-## Tests
+## Running Tests
 
 To run tests
 
 ```bash
-$ yarn test
+ yarn test
 ```
 
 To run tests with watch
 
 ```bash
-$ yarn test:watch
+ yarn test:watch
 ```
 
 To run tests with verbose
 
 ```bash
-$ yarn test:verbose
+ yarn test:verbose
 ```
 
 To run tests to staged context
 
 ```bash
-$ yarn test:staged
+ yarn test:staged
 ```
 
 To run tests in ci
 
 ```bash
-$ yarn test:ci
+ yarn test:ci
 ```
 
-## Run transpiled code
+## Build and transpiled code
 
 ```bash
-$ yarn start
+ yarn build
 ```
 
-## Build
+To run transpiled code
 
 ```bash
-$ yarn build
+ yarn start
 ```
 
-## Run transpiled code
+## To do
 
-```bash
-$ yarn start
-```
+- [ ] Rename persistence repos to Stores
+- [ ] Unit tests examples
+  - [ ] Stores
+  - [ ] Entities
+  - [ ] Usecases
+- [ ] Http middlewares
+- [ ] Increment route models and abstractions
+  - [ ] Add middlewares pre and post request
+- [ ] Increment subscriptions models and abstractions
+  - [ ] Add better configs to subscriptions to satisfy kafka features
+- [ ] Add postgres
+  - [ ] Add in stores
+  - [ ] Add in docker compose dev infra
+- [ ] Add better logs format
+- [ ] Add observability example
+  - [ ] New relic
+  - [ ] Prometheus + Grafana
