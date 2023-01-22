@@ -1,0 +1,9 @@
+/*.js
+node_modules
+dist
+tsconfig.json
+jest.config.ts
+rollup.config.js
+.prettierrc.js
+.eslintrc.json
+package.json
