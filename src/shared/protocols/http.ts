@@ -1,4 +1,4 @@
-export interface Middleware {
+export interface HttpMiddleware {
   handle(request: HttpRequest, error?: Error): Promise<HttpResponse>;
 }
 

@@ -1,20 +1,18 @@
 import { BaseSchema } from '@shared/schemas/base';
-import { PersistenceRepository } from '@shared/protocols/persistence-repository';
+import { Store } from '@shared/protocols/store';
 
-export class InMemoryPersistenceRepository<Schema extends BaseSchema = any>
-  implements PersistenceRepository<Schema>
-{
+export class InMemoryStore<Schema extends BaseSchema = any> implements Store<Schema> {
   private data: Schema[] = [];
-  private static instance: InMemoryPersistenceRepository;
+  private static instance: InMemoryStore;
 
   private constructor() {}
 
-  public static getInstance<Schema extends BaseSchema>(): InMemoryPersistenceRepository<Schema> {
-    if (!InMemoryPersistenceRepository.instance) {
-      InMemoryPersistenceRepository.instance = new InMemoryPersistenceRepository();
+  public static getInstance<Schema extends BaseSchema>(): InMemoryStore<Schema> {
+    if (!InMemoryStore.instance) {
+      InMemoryStore.instance = new InMemoryStore();
     }
 
-    return InMemoryPersistenceRepository.instance;
+    return InMemoryStore.instance;
   }
 
   public async create(payload: Schema): Promise<Schema> {

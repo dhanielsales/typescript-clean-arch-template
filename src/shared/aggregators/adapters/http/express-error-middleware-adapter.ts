@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { HttpRequest, Middleware } from '@shared/protocols/http';
+import { HttpRequest, HttpMiddleware } from '@shared/protocols/http';
 import { ControllerAdapter } from '@shared/protocols/controller';
 
 export type ExpressErrorMiddleware = (
@@ -11,9 +11,9 @@ export type ExpressErrorMiddleware = (
 ) => void;
 
 export class ExpressErrorMiddlewareAdapter
-  implements ControllerAdapter<Middleware, ExpressErrorMiddleware>
+  implements ControllerAdapter<HttpMiddleware, ExpressErrorMiddleware>
 {
-  public handle(middleware: Middleware) {
+  public handle(middleware: HttpMiddleware) {
     return (error: any, request: Request, response: Response, _next: NextFunction) => {
       const httpRequest: HttpRequest = {
         header: request.header,

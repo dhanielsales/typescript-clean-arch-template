@@ -1,10 +1,10 @@
 import { BaseError } from '@shared/aggregators/errors/base-error';
 import { Logger } from '@shared/protocols/log';
-import { Middleware, HttpResponse, HttpRequest } from '@shared/protocols/http';
+import { HttpMiddleware, HttpResponse, HttpRequest } from '@shared/protocols/http';
 import { ServerError } from '@shared/aggregators/errors/server-error';
 import { StatusCode } from '@shared/aggregators/errors/error-names';
 
-export class HttpErrorHandler implements Middleware {
+export class HttpErrorHandler implements HttpMiddleware {
   constructor(private readonly logger: Logger) {}
 
   async handle(_request: HttpRequest, error?: Error): Promise<HttpResponse> {

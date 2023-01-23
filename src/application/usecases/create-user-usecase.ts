@@ -1,5 +1,5 @@
 import { User } from '@entities/user/user-entity';
-import { CreateUserPersistenceRepository } from '@shared/infra/persistence/user/protocols/create-user-persistence-repository';
+import { CreateUserStore } from '@shared/infra/persistence/user/protocols/create-user-store';
 import { NotifyUserCreation } from '../events/notify-user-creation';
 
 interface Params {
@@ -10,12 +10,12 @@ interface Params {
 }
 export class CreateUserUsecase {
   constructor(
-    private readonly persistenceRepository: CreateUserPersistenceRepository,
+    private readonly createUserStore: CreateUserStore,
     private readonly notifyUserCreation: NotifyUserCreation,
   ) {}
 
   public async handle(params: Params): Promise<User> {
-    const user = await this.persistenceRepository.handle({
+    const user = await this.createUserStore.handle({
       name: params.name,
       phone: params.phone,
       email: params.email,

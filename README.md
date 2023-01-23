@@ -86,7 +86,7 @@ To run transpiled code
 
 ## To do
 
-- [ ] Rename persistence repos to Stores
+- [x] Rename persistence repos to Stores
 - [ ] Unit tests examples
   - [ ] Stores
   - [ ] Entities
