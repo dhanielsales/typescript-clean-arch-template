@@ -4,6 +4,6 @@ dist
 tsconfig.json
 jest.config.ts
 rollup.config.js
-.prettierrc.js
+.prettierrc.cjs
 .eslintrc.json
 package.json

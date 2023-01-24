@@ -13,6 +13,8 @@ export interface HttpRequest<Body = any, Query = any, Params = any> {
   body?: Body;
   query?: Query;
   params?: Params;
+  previewResponseHandler?: HttpResponse;
+  userId?: string;
 }
 
 export interface HttpResponse {

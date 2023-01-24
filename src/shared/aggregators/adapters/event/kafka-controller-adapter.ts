@@ -1,10 +1,10 @@
 import { EachMessageHandler } from 'kafkajs';
 
 import { EventController } from '@shared/protocols/event';
-import { ControllerAdapter } from '@shared/protocols/controller';
+import { Adapter } from '@shared/protocols/adapter';
 
 export class KafkaControllerAdapter
-  implements ControllerAdapter<EventController<unknown>, EachMessageHandler>
+  implements Adapter<EventController<unknown>, EachMessageHandler>
 {
   public handle(controller: EventController<unknown>): EachMessageHandler {
     return async (payload) => {

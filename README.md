@@ -91,9 +91,9 @@ To run transpiled code
   - [ ] Stores
   - [ ] Entities
   - [ ] Usecases
-- [ ] Http middlewares
-- [ ] Increment route models and abstractions
-  - [ ] Add middlewares pre and post request
+- [x] Increment route models and abstractions to support Http Middlewares
+  - [x] Add middlewares pre and post request
+- [ ] Increment route models and abstractions to support Route Groups
 - [ ] Increment subscriptions models and abstractions
   - [ ] Add better configs to subscriptions to satisfy kafka features
 - [ ] Add postgres

@@ -1,13 +1,13 @@
 import { EachMessageHandler } from 'kafkajs';
 
-import { ControllerAdapter } from '@shared/protocols/controller';
+import { Adapter } from '@shared/protocols/adapter';
 import { EventController, Subscription, SubscriptionAdapter } from '@shared/protocols/event';
 import { Consumer } from '@shared/protocols/pub-sub';
 import { KafkaControllerAdapter } from './kafka-controller-adapter';
 
 export class KafkaSubscriptionAdapter implements SubscriptionAdapter {
   private readonly kafkaConsumer: Consumer<unknown, EachMessageHandler>;
-  private readonly adapter: ControllerAdapter<EventController<unknown>, EachMessageHandler>;
+  private readonly adapter: Adapter<EventController<unknown>, EachMessageHandler>;
 
   constructor(kafkaConsumer: Consumer<unknown>) {
     this.kafkaConsumer = kafkaConsumer;

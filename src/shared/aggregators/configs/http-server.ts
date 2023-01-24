@@ -25,8 +25,8 @@ export class HttpServer {
   }
 
   public start(): void {
-    this.setupMiddlewares();
-    this.setupRouter();
+    this.setupBaseMiddlewares();
+    this.setupRouters();
     this.setupErrorHandler();
 
     const port = process.env.USER_SERVICE_HTTP_SERVER_PORT;
@@ -54,13 +54,13 @@ export class HttpServer {
     }
   }
 
-  private setupRouter(): void {
+  private setupRouters(): void {
     const adapter = new ExpressRouterAdapter(this.creator);
 
     adapter.handle(Routes);
   }
 
-  private setupMiddlewares(): void {
+  private setupBaseMiddlewares(): void {
     this.creator.use(express.json());
   }
 

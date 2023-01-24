@@ -2,23 +2,17 @@ import { NextFunction, Request, Response } from 'express';
 
 import { HttpMiddleware } from '@shared/protocols/http';
 import { Adapter } from '@shared/protocols/adapter';
+
 import { ExpressRequestAdapter } from './express-request-adapter';
 
-export type ExpressErrorMiddleware = (
-  error: any,
-  request: Request,
-  response: Response,
-  next: NextFunction,
-) => void;
+export type ExpressMiddleware = (request: Request, response: Response, next: NextFunction) => void;
 
-export class ExpressErrorMiddlewareAdapter
-  implements Adapter<HttpMiddleware, ExpressErrorMiddleware>
-{
+export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, ExpressMiddleware> {
   public handle(middleware: HttpMiddleware) {
-    return (error: any, request: Request, response: Response, _next: NextFunction) => {
+    return (request: Request, response: Response, next: NextFunction) => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
-      Promise.resolve(middleware.handle(httpRequest, error))
+      Promise.resolve(middleware.handle(httpRequest))
         .then((httpResponse) => {
           if (httpResponse.headers) {
             for (const key in httpResponse.headers) {
@@ -27,7 +21,12 @@ export class ExpressErrorMiddlewareAdapter
             }
           }
 
-          response.status(httpResponse.status).json({ error: httpResponse.payload });
+          Object.assign(request, {
+            userId: request.userId,
+            previewResponseHandler: httpResponse,
+          });
+
+          next();
         })
         .catch((err) => {
           response.status(500).json({ error: err.message });

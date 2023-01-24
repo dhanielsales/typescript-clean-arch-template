@@ -7,8 +7,6 @@ export class ListUsersController implements HttpController {
   public async handle(_request: HttpRequest): Promise<HttpResponse> {
     const users = await this.listUsersUsecase.handle();
 
-    console.log('Foo');
-
     return {
       status: 200,
       payload: users,
