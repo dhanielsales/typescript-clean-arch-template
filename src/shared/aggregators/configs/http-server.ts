@@ -1,11 +1,11 @@
-import express, { Express } from 'express';
-
+import express, { Express, Router } from 'express';
 import { Server } from 'http';
 
 import { ExpressRouterAdapter } from '@shared/aggregators/adapters/http/express-router-adapter';
-import { Routes } from '@shared/infra/http/routes';
 import { ExpressErrorMiddlewareAdapter } from '@shared/aggregators/adapters/http/express-error-middleware-adapter';
 import { HttpErrorHandlerFactory } from '@shared/aggregators/factories/presentation/middlewares/http/http-error-handler';
+
+import mainGroup from '@shared/infra/http/routes';
 
 export class HttpServer {
   private static instance: HttpServer;
@@ -55,9 +55,17 @@ export class HttpServer {
   }
 
   private setupRouters(): void {
-    const adapter = new ExpressRouterAdapter(this.creator);
+    const baseGroup = Router();
+    const adapter = new ExpressRouterAdapter(baseGroup);
 
-    adapter.handle(Routes);
+    for (const group of mainGroup.groups) {
+      adapter.handle(group);
+    }
+
+    this.creator.use(mainGroup.baseUrl, baseGroup);
+
+    // To print on console all routes
+    // expressPrintRoutes(this.creator._router.stack);
   }
 
   private setupBaseMiddlewares(): void {

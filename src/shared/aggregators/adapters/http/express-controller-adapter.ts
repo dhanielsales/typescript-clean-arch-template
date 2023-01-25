@@ -8,7 +8,7 @@ export type ExpressController = (request: Request, response: Response, next: Nex
 
 export class ExpressControllerAdapter implements Adapter<HttpController, ExpressController> {
   public handle(controller: HttpController) {
-    return (request: Request, response: Response, next: NextFunction) => {
+    const handler = (request: Request, response: Response, next: NextFunction) => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(controller.handle(httpRequest))
@@ -21,7 +21,7 @@ export class ExpressControllerAdapter implements Adapter<HttpController, Express
           }
 
           Object.assign(request, {
-            accountId: request.accountId,
+            userId: request.userId,
             previewResponseHandler: httpResponse,
           });
 
@@ -32,5 +32,12 @@ export class ExpressControllerAdapter implements Adapter<HttpController, Express
           next(err);
         });
     };
+
+    Object.defineProperty(handler, 'name', {
+      value: controller.constructor.name,
+      configurable: true,
+    });
+
+    return handler;
   }
 }

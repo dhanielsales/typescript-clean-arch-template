@@ -93,13 +93,16 @@ To run transpiled code
   - [ ] Usecases
 - [x] Increment route models and abstractions to support Http Middlewares
   - [x] Add middlewares pre and post request
-- [ ] Increment route models and abstractions to support Route Groups
+- [x] Increment route models and abstractions to support Route Groups
 - [ ] Increment subscriptions models and abstractions
   - [ ] Add better configs to subscriptions to satisfy kafka features
 - [ ] Add postgres
   - [ ] Add in stores
   - [ ] Add in docker compose dev infra
 - [ ] Add better logs format
+- [ ] Add Http validation
+- [ ] Add swagger
+- [ ] Add Health routes
 - [ ] Add observability example
   - [ ] New relic
   - [ ] Prometheus + Grafana

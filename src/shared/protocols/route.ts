@@ -18,5 +18,5 @@ export interface Route {
 }
 
 export interface RouterAdapter {
-  handle(routes: Array<Route>): void;
+  handle(group: RouteGroup): void;
 }

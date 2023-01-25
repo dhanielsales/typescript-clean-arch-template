@@ -9,7 +9,7 @@ export type ExpressMiddleware = (request: Request, response: Response, next: Nex
 
 export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, ExpressMiddleware> {
   public handle(middleware: HttpMiddleware) {
-    return (request: Request, response: Response, next: NextFunction) => {
+    const handler = (request: Request, response: Response, next: NextFunction) => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(middleware.handle(httpRequest))
@@ -32,5 +32,12 @@ export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, Express
           response.status(500).json({ error: err.message });
         });
     };
+
+    Object.defineProperty(handler, 'name', {
+      value: middleware.constructor.name,
+      configurable: true,
+    });
+
+    return handler;
   }
 }

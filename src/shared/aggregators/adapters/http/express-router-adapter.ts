@@ -1,31 +1,37 @@
-import { Express } from 'express';
+import { Router } from 'express';
 import { Adapter } from '@shared/protocols/adapter';
 
-import { Route } from '@shared/protocols/route';
 import { ExpressController, ExpressControllerAdapter } from './express-controller-adapter';
-import { RouterAdapter } from '@shared/protocols/route';
+import { RouteGroup, RouterAdapter } from '@shared/protocols/route';
 import { HttpController, HttpMiddleware } from '@shared/protocols/http';
 import { ExpressMiddlewareAdapter } from './express-middleware-adapter';
 
 export class ExpressRouterAdapter implements RouterAdapter {
   public readonly basePath: string;
-  private readonly router: Express;
+  private readonly router: Router;
   private readonly adapter: Adapter<HttpController, ExpressController>;
 
-  constructor(router: Express, basePath: string = '/') {
+  constructor(router: Router, basePath: string = '/') {
     this.basePath = basePath;
     this.router = router;
     this.adapter = new ExpressControllerAdapter();
   }
 
-  public handle(routes: Array<Route>) {
-    for (const route of routes) {
+  public handle(group: RouteGroup) {
+    const expressGroup = Router();
+
+    const groupMiddlewares = this.handleMiddlewares(group.middlewares);
+    if (groupMiddlewares.length > 0) {
+      expressGroup.use(...groupMiddlewares);
+    }
+
+    for (const route of group.routes) {
       const middlewares = this.handleMiddlewares(route.middlewares);
       const postMiddlewares = this.handleMiddlewares(route.postMiddlewares);
 
       switch (route.method) {
         case 'GET':
-          this.router.get(
+          expressGroup.get(
             route.path,
             ...middlewares,
             this.adapter.handle(route.handler),
@@ -33,7 +39,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
           );
           break;
         case 'POST':
-          this.router.post(
+          expressGroup.post(
             route.path,
             ...middlewares,
             this.adapter.handle(route.handler),
@@ -41,7 +47,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
           );
           break;
         case 'PUT':
-          this.router.put(
+          expressGroup.put(
             route.path,
             ...middlewares,
             this.adapter.handle(route.handler),
@@ -49,7 +55,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
           );
           break;
         case 'PATCH':
-          this.router.patch(
+          expressGroup.patch(
             route.path,
             ...middlewares,
             this.adapter.handle(route.handler),
@@ -57,7 +63,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
           );
           break;
         case 'DELETE':
-          this.router.delete(
+          expressGroup.delete(
             route.path,
             ...middlewares,
             this.adapter.handle(route.handler),
@@ -68,6 +74,13 @@ export class ExpressRouterAdapter implements RouterAdapter {
           throw new Error('Route method not supported');
       }
     }
+
+    const groupPostMiddlewares = this.handleMiddlewares(group.postMiddlewares);
+    if (groupPostMiddlewares.length > 0) {
+      expressGroup.use(...groupPostMiddlewares);
+    }
+
+    this.router.use(group.prefix, expressGroup);
   }
 
   private handleMiddlewares(middlewares: HttpMiddleware[] = []) {

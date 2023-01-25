@@ -15,7 +15,7 @@ export class ExpressErrorMiddlewareAdapter
   implements Adapter<HttpMiddleware, ExpressErrorMiddleware>
 {
   public handle(middleware: HttpMiddleware) {
-    return (error: any, request: Request, response: Response, _next: NextFunction) => {
+    const handler = (error: any, request: Request, response: Response, _next: NextFunction) => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(middleware.handle(httpRequest, error))
@@ -33,5 +33,12 @@ export class ExpressErrorMiddlewareAdapter
           response.status(500).json({ error: err.message });
         });
     };
+
+    Object.defineProperty(handler, 'name', {
+      value: middleware.constructor.name,
+      configurable: true,
+    });
+
+    return handler;
   }
 }
