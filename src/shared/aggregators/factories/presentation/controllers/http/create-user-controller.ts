@@ -1,5 +1,5 @@
 import { CreateUserController } from '@presentation/controllers/http/user/create-user-controller';
-import { HttpController } from '@shared/protocols/http';
+import { HttpController } from '@shared/protocols/http/controller';
 
 import { CreateUserUsecaseFactory } from '@shared/aggregators/factories/application/usecases/create-user-usecase';
 import { Factory } from '@shared/protocols/factory';

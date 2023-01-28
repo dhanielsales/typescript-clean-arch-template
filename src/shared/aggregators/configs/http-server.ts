@@ -4,16 +4,21 @@ import { Server } from 'http';
 import { ExpressRouterAdapter } from '@shared/aggregators/adapters/http/express-router-adapter';
 import { ExpressErrorMiddlewareAdapter } from '@shared/aggregators/adapters/http/express-error-middleware-adapter';
 import { HttpErrorHandlerFactory } from '@shared/aggregators/factories/presentation/middlewares/http/http-error-handler';
+import { Logger } from '@shared/protocols/log';
+import { LogMediator } from '../mediators/log-mediator';
 
 import mainGroup from '@shared/infra/http/routes';
+import expressPrintRoutes from '@shared/utils/express-print-routes';
 
 export class HttpServer {
   private static instance: HttpServer;
-  private readonly creator: Express;
   private server?: Server;
+  private readonly creator: Express;
+  private readonly logger: Logger;
 
   private constructor() {
     this.creator = express();
+    this.logger = LogMediator.getInstance().handle();
   }
 
   public static getInstance(): HttpServer {
@@ -32,7 +37,7 @@ export class HttpServer {
     const port = process.env.USER_SERVICE_HTTP_SERVER_PORT;
 
     this.server = this.creator.listen(port, () => {
-      console.log(`Http Server running at ${port}`);
+      this.logger.info({ message: `Http Server running at ${port}` });
     });
   }
 
@@ -41,16 +46,15 @@ export class HttpServer {
       return await new Promise<void>((resolve, _) => {
         this.server?.close((err: unknown) => {
           if (err) {
-            const error: string = JSON.stringify(err);
-            console.log(`Http Server closed with error: ${error}`);
+            this.logger.info({ message: 'Http Server closed with error', stack: err as Error });
             throw err;
           }
           resolve();
-          console.log('Http Server closed with success');
+          this.logger.info({ message: 'Http Server closed with success' });
         });
       });
     } else {
-      console.log('There is no http server to close');
+      this.logger.info({ message: 'There is no http server to close' });
     }
   }
 
@@ -65,7 +69,9 @@ export class HttpServer {
     this.creator.use(mainGroup.baseUrl, baseGroup);
 
     // To print on console all routes
-    // expressPrintRoutes(this.creator._router.stack);
+    if (process.env.DEBUG_ROUTES === 'true') {
+      expressPrintRoutes(this.creator._router.stack);
+    }
   }
 
   private setupBaseMiddlewares(): void {

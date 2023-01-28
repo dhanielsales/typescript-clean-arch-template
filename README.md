@@ -99,7 +99,7 @@ To run transpiled code
 - [ ] Add postgres
   - [ ] Add in stores
   - [ ] Add in docker compose dev infra
-- [ ] Add better logs format
+- [x] Add better logs format
 - [ ] Add Http validation
 - [ ] Add swagger
 - [ ] Add Health routes

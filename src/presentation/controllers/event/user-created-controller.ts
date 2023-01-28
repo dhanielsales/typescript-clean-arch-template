@@ -8,8 +8,6 @@ export class UserCreatedController extends EventController<UserSchema> {
   }
 
   public async listen(eventPaload: UserSchema) {
-    console.log(`Sending email to ${eventPaload.email}`);
-
     await this.sendEmailUserCreated.handle({
       email: eventPaload.email,
       name: eventPaload.name,

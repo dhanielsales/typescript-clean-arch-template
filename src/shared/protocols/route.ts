@@ -1,4 +1,5 @@
-import { HttpController, HttpMiddleware } from './http';
+import { HttpMiddleware } from './http/middleware';
+import { HttpController } from './http/controller';
 
 type HttpMethods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 

@@ -1,10 +1,14 @@
-import { Producer } from '@shared/protocols/pub-sub';
 import {
   CompressionTypes,
   Kafka,
   Producer as KafkaProducer,
   Message as KafkaMessage,
 } from 'kafkajs';
+
+import { Producer } from '@shared/protocols/pub-sub';
+
+import { Logger } from '@shared/protocols/log';
+import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
 
 type Acks = 1 | 0 | -1; // 1 Leader | 0 None | -1 All
 
@@ -19,6 +23,7 @@ interface KafkaProducerOptions {
 
 export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaProducerOptions> {
   private readonly producer: KafkaProducer;
+  private readonly logger: Logger;
   private isConnected: boolean = false;
 
   constructor(kafka: Kafka) {
@@ -28,13 +33,15 @@ export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaPro
     this.producer.on(this.producer.events.CONNECT, () => {
       this.isConnected = true;
     });
+
+    this.logger = LogMediator.getInstance().handle();
   }
 
   public async start(): Promise<void> {
     try {
       await this.producer.connect();
     } catch (error) {
-      console.log('Error connecting the producer: ', error);
+      this.logger.error({ message: 'Error connecting the producer', stack: error as Error });
     }
   }
 

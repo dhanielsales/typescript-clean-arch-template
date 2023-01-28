@@ -3,7 +3,8 @@ import { Adapter } from '@shared/protocols/adapter';
 
 import { ExpressController, ExpressControllerAdapter } from './express-controller-adapter';
 import { RouteGroup, RouterAdapter } from '@shared/protocols/route';
-import { HttpController, HttpMiddleware } from '@shared/protocols/http';
+import { HttpMiddleware } from '@shared/protocols/http/middleware';
+import { HttpController } from '@shared/protocols/http/controller';
 import { ExpressMiddlewareAdapter } from './express-middleware-adapter';
 
 export class ExpressRouterAdapter implements RouterAdapter {

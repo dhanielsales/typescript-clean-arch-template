@@ -1,9 +1,12 @@
 import { Consumer as KafkaConsumer, EachMessageHandler, Kafka } from 'kafkajs';
 
 import { Consumer } from '@shared/protocols/pub-sub';
+import { Logger } from '@shared/protocols/log';
+import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
 
 export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMessageHandler> {
   public readonly consumer: KafkaConsumer;
+  private readonly logger: Logger;
   private isConnected: boolean = false;
 
   constructor(kafka: Kafka) {
@@ -13,13 +16,15 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
     this.consumer.on(this.consumer.events.CONNECT, () => {
       this.isConnected = true;
     });
+
+    this.logger = LogMediator.getInstance().handle();
   }
 
   public async start(): Promise<void> {
     try {
       await this.consumer.connect();
     } catch (error) {
-      console.log('Error connecting the consumer: ', error);
+      this.logger.error({ message: 'Error connecting the consumer', stack: error as Error });
     }
   }
 
@@ -34,7 +39,7 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
           .catch((err) => reject(err));
       });
     } catch (error) {
-      console.log('Error disconnect the consumer: ', error);
+      this.logger.error({ message: 'Error disconnect the consumer', stack: error as Error });
     }
   }
 

@@ -1,3 +1,5 @@
+import { Logger } from '@shared/protocols/log';
+import { LogMediator } from '../mediators/log-mediator';
 import { EventProvider } from './event-provider';
 import { HttpServer } from './http-server';
 
@@ -15,10 +17,12 @@ export class HealthSetup {
   private readonly signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT', 'SIGUSR2'];
   private readonly httpServer: HttpServer;
   private readonly eventProvider: EventProvider;
+  private readonly logger: Logger;
 
   constructor(params: Params) {
     this.httpServer = params.httpServer;
     this.eventProvider = params.eventProvider;
+    this.logger = LogMediator.getInstance().handle();
   }
 
   public async start(): Promise<void> {
@@ -38,11 +42,10 @@ export class HealthSetup {
           await this.httpServer.close();
           await this.eventProvider.close();
 
-          console.log('Application closed with success');
+          this.logger.info({ message: 'Application closed with success' });
           process.exit(ExitStatus.Success);
         } catch (err) {
-          const error: string = JSON.stringify(err);
-          console.error(`Application closed with error: ${error}`);
+          this.logger.error({ message: 'Application closed with error', stack: err as Error });
           process.exit(ExitStatus.Failure);
         }
       });
@@ -51,20 +54,20 @@ export class HealthSetup {
 
   private setupUnhandledRejection(): void {
     process.on('unhandledRejection', (error: any, promise) => {
-      console.error(
-        `Application closed with unhandled promise. Promise: ${JSON.stringify(
-          promise,
-        )}, Error: ${JSON.stringify(error)}`,
-      );
-      console.error(error);
+      this.logger.error({
+        message: `Application closed with unhandled promise. Promise: ${JSON.stringify(promise)}`,
+        stack: error,
+      });
       process.exit(ExitStatus.Failure);
     });
   }
 
   private setupUncaughtException(): void {
     process.on('uncaughtException', (error) => {
-      console.error(`Application closed with uncaught exception. Error: ${JSON.stringify(error)}`);
-      console.error(error);
+      this.logger.error({
+        message: 'Application closed with uncaught exception.',
+        stack: error,
+      });
       process.exit(ExitStatus.Failure);
     });
   }

@@ -1,6 +1,7 @@
 import { BaseError } from '@shared/aggregators/errors/base-error';
 import { Logger } from '@shared/protocols/log';
-import { HttpMiddleware, HttpResponse, HttpRequest } from '@shared/protocols/http';
+import { HttpResponse, HttpRequest } from '@shared/protocols/http';
+import { HttpMiddleware } from '@shared/protocols/http/middleware';
 import { ServerError } from '@shared/aggregators/errors/server-error';
 import { StatusCode } from '@shared/aggregators/errors/error-names';
 

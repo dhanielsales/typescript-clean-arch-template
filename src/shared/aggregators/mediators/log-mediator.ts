@@ -3,6 +3,18 @@ import { Mediator } from '@shared/protocols/mediator';
 import { LogFormatter } from '../logs/log-formatter';
 
 export class LogMediator implements Mediator<Logger> {
+  private static instance: LogMediator;
+
+  private constructor() {}
+
+  public static getInstance(): LogMediator {
+    if (!LogMediator.instance) {
+      LogMediator.instance = new LogMediator();
+    }
+
+    return LogMediator.instance;
+  }
+
   public handle(): Logger {
     if (process.env.NODE_ENV === 'development') {
       return new LogFormatter();

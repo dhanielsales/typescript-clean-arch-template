@@ -1,4 +1,4 @@
-import { HttpController } from '@shared/protocols/http';
+import { HttpController } from '@shared/protocols/http/controller';
 import { ListUsersController } from '@presentation/controllers/http/user/list-users-controller';
 
 import { ListUsersUsecaseFactory } from '@shared/aggregators/factories/application/usecases/list-users-usecase';

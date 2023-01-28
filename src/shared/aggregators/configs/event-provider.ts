@@ -3,11 +3,14 @@ import { Kafka, logLevel } from 'kafkajs';
 import { subscriptions } from '@shared/infra/events/subscriptions';
 import { KafkaSubscriptionAdapter } from '@shared/aggregators/adapters/event/kafka-subscription-adapter';
 import { KafkaConsumerAdapter } from '@shared/aggregators/adapters/event/kafka-consumer-adapter';
+import { Logger } from '@shared/protocols/log';
+import { LogMediator } from '../mediators/log-mediator';
 
 export class EventProvider {
   private static instance: EventProvider;
-  public readonly creator: Kafka;
   private consumer?: KafkaConsumerAdapter<unknown>;
+  public readonly creator: Kafka;
+  private readonly logger: Logger;
 
   private constructor() {
     this.creator = new Kafka({
@@ -15,6 +18,7 @@ export class EventProvider {
       brokers: [process.env.KAFKA_ADDRESS as string],
       logLevel: logLevel.ERROR,
     });
+    this.logger = LogMediator.getInstance().handle();
   }
 
   public static getInstance(): EventProvider {
@@ -42,14 +46,13 @@ export class EventProvider {
     if (this.consumer) {
       try {
         await this.consumer.stop();
-        console.log('Event Provider closed with success');
+        this.logger.info({ message: 'Event Provider closed with success' });
       } catch (err) {
-        const error: string = JSON.stringify(err);
-        console.log(`Event Provider closed with error: ${error}`);
+        this.logger.error({ message: 'Application closed with error', stack: err as Error });
         throw err;
       }
     } else {
-      console.log('There is no Event Provider to close');
+      this.logger.info({ message: 'There is no Event Provider to close' });
     }
   }
 }
