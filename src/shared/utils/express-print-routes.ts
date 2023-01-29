@@ -1,4 +1,4 @@
-import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
+import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 
 export default function expressPrintRoutes(routerStacks: any[]) {
   const results: any[] = [];

@@ -1,5 +1,5 @@
-import { BaseSchema } from '@shared/schemas/base';
-import { Store } from '@shared/protocols/store';
+import { BaseSchema } from '@shared/infra/persistence/schemas/base';
+import { Store } from '@shared/infra/protocols/store';
 
 export class InMemoryStore<Schema extends BaseSchema = any> implements Store<Schema> {
   private data: Schema[] = [];

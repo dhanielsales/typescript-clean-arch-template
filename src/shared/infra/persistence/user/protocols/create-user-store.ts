@@ -1,4 +1,4 @@
-import { UserSchema } from '@shared/schemas/user';
+import { UserSchema } from '@shared/infra/persistence/schemas/user';
 
 export interface CreateUserStore {
   handle(params: CreateUserStore.Params): Promise<CreateUserStore.Response>;

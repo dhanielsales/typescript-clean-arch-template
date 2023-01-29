@@ -1,9 +1,9 @@
-import { BaseError } from '@shared/aggregators/errors/base-error';
-import { Logger } from '@shared/protocols/log';
-import { ServerError } from '@shared/aggregators/errors/server-error';
-import { StatusCode } from '@shared/aggregators/errors/error-names';
+import { BaseError } from '@shared/infra/aggregators/errors/base-error';
+import { ServerError } from '@shared/infra/aggregators/errors/server-error';
+import { StatusCode } from '@shared/infra/aggregators/errors/error-names';
 import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
+import { Logger } from '@shared/infra/protocols/log';
 
 export class HttpErrorHandler implements HttpMiddleware {
   constructor(private readonly logger: Logger) {}

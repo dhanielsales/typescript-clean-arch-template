@@ -1,4 +1,4 @@
-import { MailSender } from '@shared/protocols/mail-sender';
+import { MailSender } from '@shared/infra/protocols/mail-sender';
 
 interface Params {
   name: string;

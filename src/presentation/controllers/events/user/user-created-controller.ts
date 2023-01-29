@@ -1,6 +1,6 @@
 import { SendEmailUserCreated } from '@application/usecases/send-email-user-created';
 import { EventController } from '@presentation/protocols/events';
-import { UserSchema } from '@shared/schemas/user';
+import { UserSchema } from '@shared/infra/persistence/schemas/user';
 
 export class UserCreatedController extends EventController<UserSchema> {
   constructor(private readonly sendEmailUserCreated: SendEmailUserCreated) {

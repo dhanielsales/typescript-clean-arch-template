@@ -1,7 +1,7 @@
 import { RouteGroup } from '@presentation/protocols/http/route';
 
-import { CreateUserControllerFactory } from '@shared/aggregators/factories/presentation/controllers/http/create-user-controller';
-import { ListUsersControllerFactory } from '@shared/aggregators/factories/presentation/controllers/http/list-users-controller';
+import { CreateUserControllerFactory } from '@shared/infra/aggregators/factories/presentation/controllers/http/create-user-controller';
+import { ListUsersControllerFactory } from '@shared/infra/aggregators/factories/presentation/controllers/http/list-users-controller';
 
 export const UserRoutes: RouteGroup = {
   prefix: '/user',
