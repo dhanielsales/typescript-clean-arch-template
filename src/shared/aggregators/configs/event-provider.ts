@@ -1,10 +1,10 @@
 import { Kafka, logLevel } from 'kafkajs';
 
-import { subscriptions } from '@shared/infra/events/subscriptions';
 import { KafkaSubscriptionAdapter } from '@shared/aggregators/adapters/event/kafka-subscription-adapter';
 import { KafkaConsumerAdapter } from '@shared/aggregators/adapters/event/kafka-consumer-adapter';
 import { Logger } from '@shared/protocols/log';
 import { LogMediator } from '../mediators/log-mediator';
+import { Main } from '@presentation/entries/events/subscriptions';
 
 export class EventProvider {
   private static instance: EventProvider;
@@ -38,7 +38,7 @@ export class EventProvider {
   private async setupSubscriptions(): Promise<void> {
     if (this.consumer) {
       const kafkaAdapter = new KafkaSubscriptionAdapter(this.consumer);
-      await kafkaAdapter.handle(subscriptions);
+      await kafkaAdapter.handle(Main);
     }
   }
 

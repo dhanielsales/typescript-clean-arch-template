@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { HttpMiddleware } from '@shared/protocols/http/middleware';
 import { Adapter } from '@shared/protocols/adapter';
 import { ExpressRequestAdapter } from './express-request-adapter';
+import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 
 export type ExpressErrorMiddleware = (
   error: any,

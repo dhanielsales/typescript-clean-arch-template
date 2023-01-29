@@ -1,4 +1,4 @@
-import { User } from '@entities/user/user-entity';
+import { User } from '@domain/entities/user/user-entity';
 import { InMemoryStore } from '@shared/infra/persistence/prototypes/in-memory-store';
 import { ListUsersStore } from '@shared/infra/persistence/user/protocols/list-users-store';
 import { ListUsersInMemoryStore } from '@shared/infra/persistence/user/repositories/list-users-in-memory-store';

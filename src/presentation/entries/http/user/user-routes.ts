@@ -1,4 +1,4 @@
-import { RouteGroup } from '@shared/protocols/route';
+import { RouteGroup } from '@presentation/protocols/http/route';
 
 import { CreateUserControllerFactory } from '@shared/aggregators/factories/presentation/controllers/http/create-user-controller';
 import { ListUsersControllerFactory } from '@shared/aggregators/factories/presentation/controllers/http/list-users-controller';

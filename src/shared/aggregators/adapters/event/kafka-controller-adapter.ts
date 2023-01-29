@@ -1,9 +1,9 @@
 import { EachMessageHandler } from 'kafkajs';
 
-import { EventController } from '@shared/protocols/event';
 import { Adapter } from '@shared/protocols/adapter';
 import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
 import { Logger } from '@shared/protocols/log';
+import { EventController } from '@presentation/protocols/events';
 
 export class KafkaControllerAdapter
   implements Adapter<EventController<unknown>, EachMessageHandler>

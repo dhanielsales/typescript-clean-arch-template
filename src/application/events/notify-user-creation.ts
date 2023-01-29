@@ -1,7 +1,6 @@
-import { User } from '@entities/user/user-entity';
-
-import { Emitter } from '@shared/protocols/event';
-import { Producer } from '@shared/protocols/pub-sub';
+import { User } from '@domain/entities/user/user-entity';
+import { Emitter } from '@presentation/protocols/events';
+import { Producer } from '@presentation/protocols/events/pub-sub';
 
 export class NotifyUserCreation extends Emitter<User> {
   protected readonly producer: Producer<User>;

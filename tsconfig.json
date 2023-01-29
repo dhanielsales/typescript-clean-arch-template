@@ -23,8 +23,8 @@
       "@application/*": [
         "application/*"
       ],
-      "@entities/*": [
-        "entities/*"
+      "@domain/*": [
+        "domain/*"
       ],
       "@presentation/*": [
         "presentation/*"

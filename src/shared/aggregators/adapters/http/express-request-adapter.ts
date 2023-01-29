@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
-import { HttpRequest } from '@shared/protocols/http';
 import { Adapter } from '@shared/protocols/adapter';
+import { HttpRequest } from '@presentation/protocols/http';
 
 export class ExpressRequestAdapter implements Adapter<Request, HttpRequest> {
   public handle(expressRequest: Request): HttpRequest {

@@ -2,10 +2,11 @@ import { Router } from 'express';
 import { Adapter } from '@shared/protocols/adapter';
 
 import { ExpressController, ExpressControllerAdapter } from './express-controller-adapter';
-import { RouteGroup, RouterAdapter } from '@shared/protocols/route';
-import { HttpMiddleware } from '@shared/protocols/http/middleware';
-import { HttpController } from '@shared/protocols/http/controller';
 import { ExpressMiddlewareAdapter } from './express-middleware-adapter';
+
+import { RouteGroup, RouterAdapter } from '@presentation/protocols/http/route';
+import { HttpController } from '@presentation/protocols/http/controller';
+import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 
 export class ExpressRouterAdapter implements RouterAdapter {
   public readonly basePath: string;

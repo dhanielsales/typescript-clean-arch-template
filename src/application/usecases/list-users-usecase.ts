@@ -1,4 +1,4 @@
-import { User } from '@entities/user/user-entity';
+import { User } from '@domain/entities/user/user-entity';
 import { ListUsersStore } from '@shared/infra/persistence/user/protocols/list-users-store';
 
 export class ListUsersUsecase {

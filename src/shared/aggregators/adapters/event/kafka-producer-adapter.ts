@@ -5,10 +5,9 @@ import {
   Message as KafkaMessage,
 } from 'kafkajs';
 
-import { Producer } from '@shared/protocols/pub-sub';
-
 import { Logger } from '@shared/protocols/log';
 import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
+import { Producer } from '@presentation/protocols/events/pub-sub';
 
 type Acks = 1 | 0 | -1; // 1 Leader | 0 None | -1 All
 

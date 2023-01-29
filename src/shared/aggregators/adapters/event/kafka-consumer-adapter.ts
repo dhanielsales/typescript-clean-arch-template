@@ -1,8 +1,8 @@
 import { Consumer as KafkaConsumer, EachMessageHandler, Kafka } from 'kafkajs';
 
-import { Consumer } from '@shared/protocols/pub-sub';
 import { Logger } from '@shared/protocols/log';
 import { LogMediator } from '@shared/aggregators/mediators/log-mediator';
+import { Consumer } from '@presentation/protocols/events/pub-sub';
 
 export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMessageHandler> {
   public readonly consumer: KafkaConsumer;

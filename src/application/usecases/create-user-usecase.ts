@@ -1,4 +1,4 @@
-import { User } from '@entities/user/user-entity';
+import { User } from '@domain/entities/user/user-entity';
 import { CreateUserStore } from '@shared/infra/persistence/user/protocols/create-user-store';
 import { NotifyUserCreation } from '../events/notify-user-creation';
 

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { HttpController } from '@shared/protocols/http/controller';
 import { Adapter } from '@shared/protocols/adapter';
 import { ExpressRequestAdapter } from './express-request-adapter';
+import { HttpController } from '@presentation/protocols/http/controller';
 
 export type ExpressController = (request: Request, response: Response, next: NextFunction) => void;
 

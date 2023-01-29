@@ -1,10 +1,10 @@
 export interface HttpRequest<Body = any, Query = any, Params = any> {
   header(name: string): string | string[] | undefined;
   url: string;
-  cookies?: any;
-  body?: Body;
-  query?: Query;
-  params?: Params;
+  body: Body;
+  query: Query;
+  params: Params;
+  cookies: any;
   previewResponseHandler?: HttpResponse;
   userId?: string;
 }

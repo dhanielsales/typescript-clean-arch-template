@@ -84,6 +84,16 @@ To run transpiled code
  yarn start
 ```
 
+## Application Arch Flow
+
+```mermaid
+stateDiagram-v2
+direction LR
+    Presentation --> Infrastructure
+    Infrastructure --> Application
+    Application --> Domain
+```
+
 ## To do
 
 - [x] Rename persistence repos to Stores

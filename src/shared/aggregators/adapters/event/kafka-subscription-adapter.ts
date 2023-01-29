@@ -1,9 +1,10 @@
 import { EachMessageHandler } from 'kafkajs';
 
 import { Adapter } from '@shared/protocols/adapter';
-import { EventController, Subscription, SubscriptionAdapter } from '@shared/protocols/event';
-import { Consumer } from '@shared/protocols/pub-sub';
+
 import { KafkaControllerAdapter } from './kafka-controller-adapter';
+import { EventController, Subscription, SubscriptionAdapter } from '@presentation/protocols/events';
+import { Consumer } from '@presentation/protocols/events/pub-sub';
 
 export class KafkaSubscriptionAdapter implements SubscriptionAdapter {
   private readonly kafkaConsumer: Consumer<unknown, EachMessageHandler>;

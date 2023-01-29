@@ -1,4 +1,4 @@
-import { MailSender } from '@shared/protocols/email';
+import { MailSender } from '@shared/protocols/mail-sender';
 import { Mediator } from '@shared/protocols/mediator';
 import { MailtrapAdapter } from '../adapters/email/mailtrap-adapter';
 

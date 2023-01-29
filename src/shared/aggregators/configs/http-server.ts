@@ -6,8 +6,8 @@ import { ExpressErrorMiddlewareAdapter } from '@shared/aggregators/adapters/http
 import { HttpErrorHandlerFactory } from '@shared/aggregators/factories/presentation/middlewares/http/http-error-handler';
 import { Logger } from '@shared/protocols/log';
 import { LogMediator } from '../mediators/log-mediator';
+import { Main } from '@presentation/entries/http/routes';
 
-import mainGroup from '@shared/infra/http/routes';
 import expressPrintRoutes from '@shared/utils/express-print-routes';
 
 export class HttpServer {
@@ -62,11 +62,11 @@ export class HttpServer {
     const baseGroup = Router();
     const adapter = new ExpressRouterAdapter(baseGroup);
 
-    for (const group of mainGroup.groups) {
+    for (const group of Main.groups) {
       adapter.handle(group);
     }
 
-    this.creator.use(mainGroup.baseUrl, baseGroup);
+    this.creator.use(Main.baseUrl, baseGroup);
 
     // To print on console all routes
     if (process.env.DEBUG_ROUTES === 'true') {

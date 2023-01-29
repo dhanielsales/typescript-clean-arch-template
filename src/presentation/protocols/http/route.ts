@@ -1,7 +1,12 @@
-import { HttpMiddleware } from './http/middleware';
-import { HttpController } from './http/controller';
+import { HttpMiddleware } from './middleware';
+import { HttpController } from './controller';
 
 type HttpMethods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+export interface MainGroup {
+  baseUrl: string;
+  groups: RouteGroup[];
+}
 
 export interface RouteGroup {
   prefix: string;

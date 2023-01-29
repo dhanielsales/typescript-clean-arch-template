@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-import { MailSender } from '@shared/protocols/email';
+import { MailSender } from '@shared/protocols/mail-sender';
 
 export class MailtrapAdapter implements MailSender {
   private readonly transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;

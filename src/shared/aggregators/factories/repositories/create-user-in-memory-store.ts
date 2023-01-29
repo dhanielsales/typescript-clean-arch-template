@@ -1,5 +1,5 @@
-import { User } from '@entities/user/user-entity';
-import { CreateUserRepository } from '@entities/user/user-repositories';
+import { User } from '@domain/entities/user/user-entity';
+import { CreateUserRepository } from '@domain/entities/user/user-repositories';
 import { InMemoryStore } from '@shared/infra/persistence/prototypes/in-memory-store';
 import { CreateUserStore } from '@shared/infra/persistence/user/protocols/create-user-store';
 import { CreateUserInMemoryStore } from '@shared/infra/persistence/user/repositories/create-user-in-memory-store';
