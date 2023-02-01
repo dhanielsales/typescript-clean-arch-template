@@ -98,6 +98,7 @@ direction LR
 
 - [x] Rename persistence repos to Stores
 - [ ] Unit tests examples
+  - [ ] Verify jest mock class to not be stuck of implementation and use interface
   - [ ] Stores
   - [ ] Entities
   - [ ] Usecases
@@ -107,7 +108,7 @@ direction LR
 - [ ] Increment subscriptions models and abstractions
   - [ ] Add better configs to subscriptions to satisfy kafka features
 - [ ] Add postgres
-  - [ ] Make postgres adapter
+  - [ ] Make postgres adapter with pgPromise
   - [ ] Unit tests for Adapter
   - [ ] Add in stores
   - [ ] Add in docker compose dev infra
