@@ -1,4 +1,4 @@
-import { HttpValidationSchema } from '@shared/infra/aggregators/validators/http';
+import { HttpValidationSchema } from '@presentation/protocols/http/validator';
 import { Schema } from '../create-user-controller';
 
 export const CreateUserControllerSchema: HttpValidationSchema<

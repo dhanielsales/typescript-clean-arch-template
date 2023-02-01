@@ -1,5 +1,6 @@
 import { HttpMiddleware } from './middleware';
 import { HttpController } from './controller';
+import { HttpValidationSchema } from './validator';
 
 type HttpMethods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
@@ -19,6 +20,7 @@ export interface Route {
   method: HttpMethods;
   path: string;
   handler: HttpController;
+  schema?: HttpValidationSchema;
   middlewares?: HttpMiddleware[];
   postMiddlewares?: HttpMiddleware[];
 }

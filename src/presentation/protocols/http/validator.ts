@@ -3,8 +3,8 @@ import { isObject } from '@shared/utils/is-object';
 import { isPrimitive } from '@shared/utils/is-primitive';
 
 export namespace HttpValidation {
-  export type TypeString = 'string' | 'email';
-  export type TypeNumber = 'number';
+  export type TypeString = 'string' | 'email' | 'datetime';
+  export type TypeNumber = 'number' | 'positive' | 'negative' | 'integer';
   export type TypeBoolean = 'boolean';
   export type TypeArray = 'array';
   export type TypeObject = 'object';
@@ -35,7 +35,7 @@ export namespace HttpValidation {
     type: T;
   }
 
-  type ConstraintsAny =
+  export type ConstraintsAny =
     | {
         required: boolean;
         type: Types;
@@ -131,6 +131,10 @@ export namespace HttpValidation {
     return true;
   }
 }
+
+export type HttpValidatorsTypes = {
+  [Key in HttpValidation.Types]: (value: any) => boolean;
+};
 
 export interface HttpValidationSchema<
   Body extends object = any,

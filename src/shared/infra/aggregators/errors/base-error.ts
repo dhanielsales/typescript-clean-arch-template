@@ -15,7 +15,7 @@ export class BaseError extends Error {
     super(payload.message);
 
     this.name = payload.name;
-    this.description = payload.description ?? payload.message;
+    this.description = payload.description || payload.message;
     this.details = payload.details;
   }
 }

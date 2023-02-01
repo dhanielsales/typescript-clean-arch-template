@@ -1,5 +1,5 @@
 import MockDate from 'mockdate';
-import { HttpValidation } from '.';
+import { HttpValidation } from './validator';
 
 describe('HttpValidation.constraintsHasField', () => {
   beforeAll(() => MockDate.set(new Date()));
