@@ -111,6 +111,7 @@ direction LR
   - [ ] Unit tests for Adapter
   - [ ] Add in stores
   - [ ] Add in docker compose dev infra
+  - [ ] Add migration files support
 - [x] Add better logs format
 - [ ] Add Http validation
   - [x] Unit tests
