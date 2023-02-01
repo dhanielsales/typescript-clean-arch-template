@@ -122,6 +122,7 @@ direction LR
 - [ ] Make unit tests to kafka adapter
 - [ ] Add swagger
 - [ ] Add Health routes
+- [ ] Configure pre commit and pre push
 - [ ] Add observability example
   - [ ] New relic
   - [ ] Prometheus + Grafana
