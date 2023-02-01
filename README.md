@@ -111,6 +111,7 @@ direction LR
   - [ ] Add in docker compose dev infra
 - [x] Add better logs format
 - [ ] Add Http validation
+  - [x] Unit tests
 - [ ] Add swagger
 - [ ] Add Health routes
 - [ ] Add observability example
