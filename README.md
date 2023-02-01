@@ -107,11 +107,17 @@ direction LR
 - [ ] Increment subscriptions models and abstractions
   - [ ] Add better configs to subscriptions to satisfy kafka features
 - [ ] Add postgres
+  - [ ] Make postgres adapter
+  - [ ] Unit tests for Adapter
   - [ ] Add in stores
   - [ ] Add in docker compose dev infra
 - [x] Add better logs format
 - [ ] Add Http validation
   - [x] Unit tests
+  - [ ] Make sanitize of payload based in schema
+  - [ ] Apply schema to routes and make adapter considerate schema
+- [ ] Make Unit tests to express adapter
+- [ ] Make unit tests to kafka adapter
 - [ ] Add swagger
 - [ ] Add Health routes
 - [ ] Add observability example
