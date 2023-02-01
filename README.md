@@ -123,6 +123,7 @@ direction LR
 - [ ] Add swagger
 - [ ] Add Health routes
 - [ ] Configure pre commit and pre push
+- [ ] Create Docs
 - [ ] Add observability example
   - [ ] New relic
   - [ ] Prometheus + Grafana
