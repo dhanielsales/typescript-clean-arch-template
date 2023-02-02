@@ -114,10 +114,9 @@ direction LR
   - [ ] Add in docker compose dev infra
   - [ ] Add migration files support
 - [x] Add better logs format
-- [ ] Add Http validation
+- [x] Add Http validation
   - [x] Unit tests
-  - [ ] Make sanitize of payload based in schema
-  - [ ] Apply schema to routes and make adapter considerate schema
+  - [x] Apply schema to routes and make adapter considerate schema
 - [ ] Make Unit tests to express adapter
 - [ ] Make unit tests to kafka adapter
 - [ ] Add swagger

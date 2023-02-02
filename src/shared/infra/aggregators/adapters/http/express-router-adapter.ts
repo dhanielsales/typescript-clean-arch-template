@@ -28,49 +28,28 @@ export class ExpressRouterAdapter implements RouterAdapter {
     }
 
     for (const route of group.routes) {
+      const { method, path, schema, handler } = route;
+
       const middlewares = this.handleMiddlewares(route.middlewares);
       const postMiddlewares = this.handleMiddlewares(route.postMiddlewares);
 
-      switch (route.method) {
+      const adaptedHandler = this.adapter.handle(handler, schema);
+
+      switch (method) {
         case 'GET':
-          expressGroup.get(
-            route.path,
-            ...middlewares,
-            this.adapter.handle(route.handler),
-            ...postMiddlewares,
-          );
+          expressGroup.get(path, ...middlewares, adaptedHandler, ...postMiddlewares);
           break;
         case 'POST':
-          expressGroup.post(
-            route.path,
-            ...middlewares,
-            this.adapter.handle(route.handler),
-            ...postMiddlewares,
-          );
+          expressGroup.post(path, ...middlewares, adaptedHandler, ...postMiddlewares);
           break;
         case 'PUT':
-          expressGroup.put(
-            route.path,
-            ...middlewares,
-            this.adapter.handle(route.handler),
-            ...postMiddlewares,
-          );
+          expressGroup.put(path, ...middlewares, adaptedHandler, ...postMiddlewares);
           break;
         case 'PATCH':
-          expressGroup.patch(
-            route.path,
-            ...middlewares,
-            this.adapter.handle(route.handler),
-            ...postMiddlewares,
-          );
+          expressGroup.patch(path, ...middlewares, adaptedHandler, ...postMiddlewares);
           break;
         case 'DELETE':
-          expressGroup.delete(
-            route.path,
-            ...middlewares,
-            this.adapter.handle(route.handler),
-            ...postMiddlewares,
-          );
+          expressGroup.delete(path, ...middlewares, adaptedHandler, ...postMiddlewares);
           break;
         default:
           throw new Error('Route method not supported');

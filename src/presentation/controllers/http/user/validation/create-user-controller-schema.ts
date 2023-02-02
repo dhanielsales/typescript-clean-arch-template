@@ -23,9 +23,5 @@ export const CreateUserControllerSchema: HttpValidationSchema<
       type: 'string',
       required: true,
     },
-    foo: {
-      type: 'object',
-      required: true,
-    },
   },
 };

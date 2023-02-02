@@ -15,8 +15,10 @@ export namespace Schema {
   export type Params = never;
 }
 
-export class CreateUserController implements HttpController {
-  constructor(private readonly createUserUsecase: CreateUserUsecase) {}
+export class CreateUserController extends HttpController {
+  constructor(private readonly createUserUsecase: CreateUserUsecase) {
+    super();
+  }
 
   public async handle(
     request: HttpRequest<Schema.Body, Schema.Query, Schema.Params>,

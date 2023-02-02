@@ -1,17 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { ExpressRequestAdapter } from './express-request-adapter';
+import { HttpValidationSchema } from '@presentation/protocols/http/validator';
 import { HttpController } from '@presentation/protocols/http/controller';
+import { ExpressRequestAdapter } from './express-request-adapter';
 import { Adapter } from '@shared/infra/protocols/adapter';
 
 export type ExpressController = (request: Request, response: Response, next: NextFunction) => void;
 
 export class ExpressControllerAdapter implements Adapter<HttpController, ExpressController> {
-  public handle(controller: HttpController) {
+  public handle(controller: HttpController, schema?: HttpValidationSchema) {
     const handler = (request: Request, response: Response, next: NextFunction) => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
-      Promise.resolve(controller.handle(httpRequest))
+      Promise.resolve(controller.perform(httpRequest, schema))
         .then((httpResponse) => {
           if (httpResponse.headers) {
             for (const key in httpResponse.headers) {

@@ -34,18 +34,15 @@ interface ValidateParamsTypes extends ValidateParams {
   type: HttpValidation.Types;
 }
 
-export class HttpValidator implements Validator<HttpRequest> {
-  constructor(
-    private readonly schema: HttpValidationSchema,
-    private readonly validatorsTypes: HttpValidatorsTypes,
-  ) {}
+export class HttpValidator implements Validator<HttpRequest, HttpValidationSchema> {
+  constructor(private readonly validatorsTypes: HttpValidatorsTypes) {}
 
-  public validate(request: HttpRequest): void {
+  public validate(request: HttpRequest, schema: HttpValidationSchema): void {
     const contexts = Object.values(HttpValidation.Context);
     let invalidFields: InvalidFields = {};
 
     for (const context of contexts) {
-      const fieldsInSchema = this.schema[context] ?? {};
+      const fieldsInSchema = schema[context] ?? {};
 
       invalidFields = this.handle(context, request[context], fieldsInSchema, invalidFields);
     }

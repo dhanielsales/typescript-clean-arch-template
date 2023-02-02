@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 
-import { HttpValidationSchema } from '@presentation/protocols/http/validator';
+import { HttpValidationSchema, HttpValidatorsTypes } from '@presentation/protocols/http/validator';
 import { BadRequestError } from '@shared/infra/aggregators/errors/bad-request-error';
 
 import { ZodHttpValidator } from '@shared/infra/aggregators/adapters/validators/zod-http-validator';
@@ -9,12 +9,12 @@ jest.mock('@shared/infra/aggregators/adapters/validators/zod-http-validator');
 import { getClassMock } from '@shared/utils/mocks/get-class-mock';
 import { HttpValidator } from './http-validator';
 
-const makeSut = (schema: HttpValidationSchema) => {
-  const zodHttpValidatorMock = getClassMock<ZodHttpValidator>(ZodHttpValidator);
-  const sut = new HttpValidator(schema, zodHttpValidatorMock);
+const makeSut = () => {
+  const validatorsTypes = getClassMock<HttpValidatorsTypes>(ZodHttpValidator);
+  const sut = new HttpValidator(validatorsTypes);
 
   return {
-    zodHttpValidatorMock,
+    validatorsTypes,
     sut,
   };
 };
@@ -33,9 +33,9 @@ describe('HttpValidator General', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: {} } as any)).toThrowError(
+    expect(() => sut.validate({ body: {} } as any, schema)).toThrowError(
       new BadRequestError('Invalid fields', {
         invalid: { body: { required_field: "Field 'required_field' is required." } },
       }),
@@ -52,9 +52,9 @@ describe('HttpValidator General', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: {} } as any)).not.toThrow();
+    expect(() => sut.validate({ body: {} } as any, schema)).not.toThrow();
   });
 
   test('Should succeed if it receives content in another context instead of what exists in the schema', async () => {
@@ -67,10 +67,10 @@ describe('HttpValidator General', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
     expect(() =>
-      sut.validate({ params: { any_param: 'any_value' }, body: {} } as any),
+      sut.validate({ params: { any_param: 'any_value' }, body: {} } as any, schema),
     ).not.toThrow();
   });
 
@@ -84,17 +84,21 @@ describe('HttpValidator General', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: { any_body_field: 'any_value' } } as any)).not.toThrow();
+    expect(() =>
+      sut.validate({ body: { any_body_field: 'any_value' } } as any, schema),
+    ).not.toThrow();
   });
 
   test('Should succeed if non exists rule to field in the schema', async () => {
     const schema: HttpValidationSchema = {};
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: { any_body_field: 'any_value' } } as any)).not.toThrow();
+    expect(() =>
+      sut.validate({ body: { any_body_field: 'any_value' } } as any, schema),
+    ).not.toThrow();
   });
 });
 
@@ -112,11 +116,11 @@ describe('HttpValidator Type Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
+    const { sut, validatorsTypes } = makeSut();
 
-    jest.spyOn(zodHttpValidatorMock, 'string').mockReturnValue(true);
+    jest.spyOn(validatorsTypes, 'string').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { required_field: 123 } } as any)).toThrow(
+    expect(() => sut.validate({ body: { required_field: 123 } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -138,11 +142,11 @@ describe('HttpValidator Type Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
+    const { sut, validatorsTypes } = makeSut();
 
-    jest.spyOn(zodHttpValidatorMock, 'number').mockReturnValue(true);
+    jest.spyOn(validatorsTypes, 'number').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { number_field: 'number' } } as any)).toThrow(
+    expect(() => sut.validate({ body: { number_field: 'number' } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -164,10 +168,10 @@ describe('HttpValidator Type Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'boolean').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'boolean').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { boolean_field: 'boolean' } } as any)).toThrow(
+    expect(() => sut.validate({ body: { boolean_field: 'boolean' } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -189,10 +193,10 @@ describe('HttpValidator Type Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'email').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'email').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { email_field: 'non-valid-email' } } as any)).toThrow(
+    expect(() => sut.validate({ body: { email_field: 'non-valid-email' } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -219,10 +223,10 @@ describe('HttpValidator Object Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'object').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'object').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { object_field: 'object' } } as any)).toThrow(
+    expect(() => sut.validate({ body: { object_field: 'object' } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -250,9 +254,11 @@ describe('HttpValidator Object Validation', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: { object_field: { another: 'another' } } } as any)).toThrow(
+    expect(() =>
+      sut.validate({ body: { object_field: { another: 'another' } } } as any, schema),
+    ).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: { 'object_field.nested_field': "Field 'object_field.nested_field' is required." },
@@ -277,9 +283,9 @@ describe('HttpValidator Object Validation', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({} as any)).toThrow(
+    expect(() => sut.validate({} as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: { body: { object_field: "Field 'object_field' is required." } },
       }),
@@ -301,10 +307,10 @@ describe('HttpValidator Array Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'array').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'array').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { array_field: 'array' } } as any)).toThrow(
+    expect(() => sut.validate({ body: { array_field: 'array' } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -327,10 +333,10 @@ describe('HttpValidator Array Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'number').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'number').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { array_field: ['another'] } } as any)).toThrow(
+    expect(() => sut.validate({ body: { array_field: ['another'] } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -358,10 +364,10 @@ describe('HttpValidator Array Validation', () => {
       },
     };
 
-    const { sut, zodHttpValidatorMock } = makeSut(schema);
-    jest.spyOn(zodHttpValidatorMock, 'object').mockReturnValue(true);
+    const { sut, validatorsTypes } = makeSut();
+    jest.spyOn(validatorsTypes, 'object').mockReturnValue(true);
 
-    expect(() => sut.validate({ body: { array_field: ['another'] } } as any)).toThrow(
+    expect(() => sut.validate({ body: { array_field: ['another'] } } as any, schema)).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: {
@@ -389,9 +395,11 @@ describe('HttpValidator Array Validation', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
-    expect(() => sut.validate({ body: { array_field: [{ another: 'another' }] } } as any)).toThrow(
+    expect(() =>
+      sut.validate({ body: { array_field: [{ another: 'another' }] } } as any, schema),
+    ).toThrow(
       new BadRequestError('Invalid fields', {
         invalid: {
           body: { 'array_field.nested_field': "Field 'array_field.nested_field' is required." },
@@ -410,10 +418,10 @@ describe('HttpValidator Array Validation', () => {
       },
     };
 
-    const { sut } = makeSut(schema);
+    const { sut } = makeSut();
 
     expect(() =>
-      sut.validate({ body: { array_field: [{ another: 'another' }] } } as any),
+      sut.validate({ body: { array_field: [{ another: 'another' }] } } as any, schema),
     ).not.toThrow();
   });
 });
