@@ -117,6 +117,7 @@ direction LR
 - [x] Add Http validation
   - [x] Unit tests
   - [x] Apply schema to routes and make adapter considerate schema
+- [x] Make Unit tests to mailtrap adapter
 - [ ] Make Unit tests to express adapter
 - [ ] Make unit tests to kafka adapter
 - [ ] Add swagger
