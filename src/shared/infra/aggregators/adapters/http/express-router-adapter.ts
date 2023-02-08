@@ -1,8 +1,9 @@
 import { Router } from 'express';
+
 import { Adapter } from '@shared/infra/protocols/adapter';
 
 import { ExpressController, ExpressControllerAdapter } from './express-controller-adapter';
-import { ExpressMiddlewareAdapter } from './express-middleware-adapter';
+import { ExpressMiddleware, ExpressMiddlewareAdapter } from './express-middleware-adapter';
 
 import { RouteGroup, RouterAdapter } from '@presentation/protocols/http/route';
 import { HttpController } from '@presentation/protocols/http/controller';
@@ -19,7 +20,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
     this.adapter = new ExpressControllerAdapter();
   }
 
-  public handle(group: RouteGroup) {
+  public handle(group: RouteGroup): void {
     const expressGroup = Router();
 
     const groupMiddlewares = this.handleMiddlewares(group.middlewares);
@@ -64,7 +65,7 @@ export class ExpressRouterAdapter implements RouterAdapter {
     this.router.use(group.prefix, expressGroup);
   }
 
-  private handleMiddlewares(middlewares: HttpMiddleware[] = []) {
+  private handleMiddlewares(middlewares: HttpMiddleware[] = []): ExpressMiddleware[] {
     const adapter = new ExpressMiddlewareAdapter();
 
     return middlewares.map((middleware) => adapter.handle(middleware));

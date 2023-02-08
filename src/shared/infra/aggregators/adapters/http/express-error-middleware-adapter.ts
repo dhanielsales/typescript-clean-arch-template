@@ -14,8 +14,13 @@ export type ExpressErrorMiddleware = (
 export class ExpressErrorMiddlewareAdapter
   implements Adapter<HttpMiddleware, ExpressErrorMiddleware>
 {
-  public handle(middleware: HttpMiddleware) {
-    const handler = (error: any, request: Request, response: Response, _next: NextFunction) => {
+  public handle(middleware: HttpMiddleware): ExpressErrorMiddleware {
+    const handler = (
+      error: any,
+      request: Request,
+      response: Response,
+      _next: NextFunction,
+    ): void => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(middleware.handle(httpRequest, error))

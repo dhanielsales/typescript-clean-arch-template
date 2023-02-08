@@ -1,10 +1,10 @@
 import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 
-export default function expressPrintRoutes(routerStacks: any[]) {
+export default function expressPrintRoutes(routerStacks: any[]): void {
   const results: any[] = [];
   const logger = LogMediator.getInstance().handle();
 
-  function print(path: any, layer: any) {
+  function print(path: any, layer: any): void {
     if (layer.route) {
       layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))));
     } else if (layer.name === 'router' && layer.handle.stack) {
@@ -17,7 +17,7 @@ export default function expressPrintRoutes(routerStacks: any[]) {
     }
   }
 
-  function split(thing: any) {
+  function split(thing: any): any {
     if (typeof thing === 'string') {
       return thing.split('/');
     } else if (thing.fast_slash) {

@@ -1,5 +1,5 @@
 export function StaticImplements<T>() {
-  return <U extends T>(constructor: U) => {
+  return <U extends T>(constructor: U): void => {
     constructor;
   };
 }

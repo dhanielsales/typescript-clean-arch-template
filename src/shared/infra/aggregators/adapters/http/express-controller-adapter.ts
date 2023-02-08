@@ -8,8 +8,8 @@ import { Adapter } from '@shared/infra/protocols/adapter';
 export type ExpressController = (request: Request, response: Response, next: NextFunction) => void;
 
 export class ExpressControllerAdapter implements Adapter<HttpController, ExpressController> {
-  public handle(controller: HttpController, schema?: HttpValidationSchema) {
-    const handler = (request: Request, response: Response, next: NextFunction) => {
+  public handle(controller: HttpController, schema?: HttpValidationSchema): ExpressController {
+    const handler = (request: Request, response: Response, next: NextFunction): void => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(controller.perform(httpRequest, schema))

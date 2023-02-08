@@ -8,8 +8,8 @@ import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 export type ExpressMiddleware = (request: Request, response: Response, next: NextFunction) => void;
 
 export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, ExpressMiddleware> {
-  public handle(middleware: HttpMiddleware) {
-    const handler = (request: Request, response: Response, next: NextFunction) => {
+  public handle(middleware: HttpMiddleware): ExpressMiddleware {
+    const handler = (request: Request, response: Response, next: NextFunction): void => {
       const httpRequest = new ExpressRequestAdapter().handle(request);
 
       Promise.resolve(middleware.handle(httpRequest))

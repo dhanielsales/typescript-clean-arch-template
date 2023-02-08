@@ -7,7 +7,7 @@ export class UserCreatedController extends EventController<UserSchema> {
     super();
   }
 
-  public async listen(eventPaload: UserSchema) {
+  public async listen(eventPaload: UserSchema): Promise<void> {
     await this.sendEmailUserCreated.handle({
       email: eventPaload.email,
       name: eventPaload.name,
