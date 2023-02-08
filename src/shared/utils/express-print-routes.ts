@@ -10,10 +10,15 @@ export default function expressPrintRoutes(routerStacks: any[]): void {
     } else if (layer.name === 'router' && layer.handle.stack) {
       layer.handle.stack.forEach(print.bind(null, path.concat(split(layer.regexp))));
     } else if (layer.method) {
-      results.push({
-        method: layer.method.toUpperCase(),
-        path: path.concat(split(layer.regexp)).filter(Boolean).join('/'),
-      });
+      const currentPath = path.concat(split(layer.regexp)).filter(Boolean).join('/');
+      const method = layer.method.toUpperCase();
+
+      if (!results.find((item) => item.path === currentPath && item.method === method)) {
+        results.push({
+          method,
+          path: currentPath,
+        });
+      }
     }
   }
 
