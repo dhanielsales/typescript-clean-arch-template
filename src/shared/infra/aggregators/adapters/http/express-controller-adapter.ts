@@ -10,7 +10,10 @@ export type ExpressController = (request: Request, response: Response, next: Nex
 export class ExpressControllerAdapter implements Adapter<HttpController, ExpressController> {
   public handle(controller: HttpController, schema?: HttpValidationSchema): ExpressController {
     const handler = (request: Request, response: Response, next: NextFunction): void => {
-      const httpRequest = new ExpressRequestAdapter().handle(request);
+      const httpRequest = new ExpressRequestAdapter().handle(
+        request,
+        response.locals.previousHandlerResponse,
+      );
 
       Promise.resolve(controller.perform(httpRequest, schema))
         .then((httpResponse) => {
@@ -21,10 +24,11 @@ export class ExpressControllerAdapter implements Adapter<HttpController, Express
             }
           }
 
-          Object.assign(request, {
+          response.locals = {
+            ...response.locals,
             userId: request.userId,
-            previewResponseHandler: httpResponse,
-          });
+            previousHandlerResponse: httpResponse,
+          };
 
           response.status(httpResponse.status).json(httpResponse.payload);
           next();

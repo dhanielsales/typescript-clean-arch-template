@@ -10,7 +10,10 @@ export type ExpressMiddleware = (request: Request, response: Response, next: Nex
 export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, ExpressMiddleware> {
   public handle(middleware: HttpMiddleware): ExpressMiddleware {
     const handler = (request: Request, response: Response, next: NextFunction): void => {
-      const httpRequest = new ExpressRequestAdapter().handle(request);
+      const httpRequest = new ExpressRequestAdapter().handle(
+        request,
+        response.locals.previousHandlerResponse,
+      );
 
       Promise.resolve(middleware.handle(httpRequest))
         .then((httpResponse) => {
@@ -21,10 +24,11 @@ export class ExpressMiddlewareAdapter implements Adapter<HttpMiddleware, Express
             }
           }
 
-          Object.assign(request, {
+          response.locals = {
+            ...response.locals,
             userId: request.userId,
-            previewResponseHandler: httpResponse,
-          });
+            previousHandlerResponse: httpResponse,
+          };
 
           next();
         })

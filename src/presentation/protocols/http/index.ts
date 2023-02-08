@@ -5,7 +5,7 @@ export interface HttpRequest<Body = any, Query = any, Params = any> {
   query: Query;
   params: Params;
   cookies: any;
-  previewResponseHandler?: HttpResponse;
+  previousHandlerResponse?: HttpResponse;
   userId?: string;
 }
 

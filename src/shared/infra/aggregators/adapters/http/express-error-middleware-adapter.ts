@@ -21,7 +21,10 @@ export class ExpressErrorMiddlewareAdapter
       response: Response,
       _next: NextFunction,
     ): void => {
-      const httpRequest = new ExpressRequestAdapter().handle(request);
+      const httpRequest = new ExpressRequestAdapter().handle(
+        request,
+        response.locals.previousHandlerResponse,
+      );
 
       Promise.resolve(middleware.handle(httpRequest, error))
         .then((httpResponse) => {

@@ -1,10 +1,10 @@
 import { Request } from 'express';
 
 import { Adapter } from '@shared/infra/protocols/adapter';
-import { HttpRequest } from '@presentation/protocols/http';
+import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
 
 export class ExpressRequestAdapter implements Adapter<Request, HttpRequest> {
-  public handle(expressRequest: Request): HttpRequest {
+  public handle(expressRequest: Request, previousHandlerResponse: HttpResponse): HttpRequest {
     const httpRequest: HttpRequest = {
       header: expressRequest.header,
       url: expressRequest.url,
@@ -12,7 +12,7 @@ export class ExpressRequestAdapter implements Adapter<Request, HttpRequest> {
       cookies: expressRequest.cookies,
       params: expressRequest.params,
       query: expressRequest.query,
-      previewResponseHandler: expressRequest.previewResponseHandler,
+      previousHandlerResponse,
       userId: expressRequest.userId,
     };
 
