@@ -34,7 +34,7 @@ export class HttpServer {
     this.setupRouters();
     this.setupErrorHandler();
 
-    const port = process.env.USER_SERVICE_HTTP_SERVER_PORT;
+    const port = process.env.HTTP_SERVER_PORT;
 
     this.server = this.creator.listen(port, () => {
       this.logger.info({ message: `Http Server running at ${port}` });
