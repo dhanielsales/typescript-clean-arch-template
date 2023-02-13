@@ -12,7 +12,6 @@ export class KafkaMock {
     return {
       events: this.events,
       connect: async () => {
-        // throw new Error('Error connecting to Kafka');
         this.onConnectEvent();
       },
       disconnect: async () => {

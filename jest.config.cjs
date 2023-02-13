@@ -21,6 +21,8 @@ module.exports = {
     'jest.setup.ts',
     '<rootDir>/configs/',
     '<rootDir>/dist/',
+    '<rootDir>/dist/',
+    '<rootDir>/src/shared/utils/mocks/',
     'jest.config.ts',
     '.json',
     '.snap',

@@ -30,12 +30,9 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
   }
 
   public async start(): Promise<void> {
-    console.log('AQUII');
     try {
-      console.log('1');
       await this.consumer.connect();
     } catch (error) {
-      console.log('2');
       this.logger.error({ message: 'Error connecting the consumer', stack: error as Error });
       throw error;
     }
@@ -43,14 +40,7 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
 
   public async stop(): Promise<void> {
     try {
-      new Promise<void>((resolve, reject) => {
-        this.consumer
-          .disconnect()
-          .then(() => {
-            this.consumer.on(this.consumer.events.DISCONNECT, () => resolve());
-          })
-          .catch((err) => reject(err));
-      });
+      await this.consumer.disconnect();
     } catch (error) {
       this.logger.error({ message: 'Error disconnect the consumer', stack: error as Error });
       throw error;
@@ -58,7 +48,7 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
   }
 
   async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
-    if (!this._isConnected) {
+    if (!this.isConnected) {
       throw new Error('Kafka consumer is not connected');
     }
 

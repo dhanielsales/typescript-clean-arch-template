@@ -34,6 +34,7 @@ export class EventProvider {
     this.consumer = new KafkaConsumerAdapter(this.creator);
     await this.consumer.start();
     await this.setupSubscriptions();
+    this.logger.info({ message: `Event Provider running` });
   }
 
   private async setupSubscriptions(): Promise<void> {
