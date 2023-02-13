@@ -7,24 +7,37 @@ import { Consumer } from '@presentation/protocols/events/pub-sub';
 export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMessageHandler> {
   public readonly consumer: KafkaConsumer;
   private readonly logger: Logger;
-  private isConnected: boolean = false;
+  private _isConnected: boolean = false;
 
   constructor(kafka: Kafka) {
-    // TODO avaliar possibilidade de injeção de configurações
-    this.consumer = kafka.consumer({ groupId: 'my-app-group' });
+    this.consumer = kafka.consumer({
+      groupId: process.env.KAFKAJS_GROUP_ID as string,
+    });
 
     this.consumer.on(this.consumer.events.CONNECT, () => {
-      this.isConnected = true;
+      this._isConnected = true;
+    });
+
+    this.consumer.on(this.consumer.events.DISCONNECT, () => {
+      this._isConnected = false;
     });
 
     this.logger = LogMediator.getInstance().handle();
   }
 
+  get isConnected() {
+    return this._isConnected;
+  }
+
   public async start(): Promise<void> {
+    console.log('AQUII');
     try {
+      console.log('1');
       await this.consumer.connect();
     } catch (error) {
+      console.log('2');
       this.logger.error({ message: 'Error connecting the consumer', stack: error as Error });
+      throw error;
     }
   }
 
@@ -40,15 +53,16 @@ export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMess
       });
     } catch (error) {
       this.logger.error({ message: 'Error disconnect the consumer', stack: error as Error });
+      throw error;
     }
   }
 
   async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
-    if (!this.isConnected) {
+    if (!this._isConnected) {
       throw new Error('Kafka consumer is not connected');
     }
 
-    await this.consumer.subscribe({ topic });
+    await this.consumer.subscribe({ topics: [topic] });
 
     await this.consumer.run({
       eachMessage: callback,

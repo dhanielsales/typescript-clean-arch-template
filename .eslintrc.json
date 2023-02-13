@@ -29,9 +29,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error"
-    ],
     "no-unused-vars": "off",
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",
@@ -44,16 +41,6 @@
       "always"
     ]
   },
-  "overrides": [
-    {
-      "files": "*.test.ts",
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": [
-          "off"
-        ]
-      }
-    }
-  ],
   "settings": {
     "import/extensions": [
       ".ts",

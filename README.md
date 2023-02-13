@@ -120,6 +120,7 @@ direction LR
 - [x] Make Unit tests to mailtrap adapter
 - [ ] Make Unit tests to express adapter
 - [ ] Make unit tests to kafka adapter
+- [ ] Add structure for support WebSocket
 - [ ] Add swagger
 - [ ] Add Health routes
 - [ ] Configure pre commit and pre push
