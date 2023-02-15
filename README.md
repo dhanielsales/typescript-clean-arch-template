@@ -120,6 +120,8 @@ direction LR
 - [x] Make Unit tests to mailtrap adapter
 - [x] Make Unit tests to express adapter
 - [ ] Make unit tests to kafka adapter
+- [ ] Make logger injected to instead of using inside contructor
+- [ ] Make logger have been called on tests
 - [ ] Add structure for support WebSocket
 - [ ] Add swagger
 - [ ] Add Health routes

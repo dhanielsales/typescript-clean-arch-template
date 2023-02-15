@@ -15,6 +15,7 @@ interface KafkaProducerOptions {
   acks?: Acks;
   key?: string;
   partition?: number;
+  timeout?: number;
   headers?: {
     [key: string]: string | string[];
   };
@@ -49,6 +50,16 @@ export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaPro
       await this.producer.connect();
     } catch (error) {
       this.logger.error({ message: 'Error connecting the producer', stack: error as Error });
+      throw error;
+    }
+  }
+
+  public async stop(): Promise<void> {
+    try {
+      await this.producer.disconnect();
+    } catch (error) {
+      this.logger.error({ message: 'Error disconnect the producer', stack: error as Error });
+      throw error;
     }
   }
 
@@ -61,18 +72,20 @@ export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaPro
       throw new Error('Kafka producer is not connected');
     }
 
+    const { acks = 0, timeout = 15000, headers, key, partition } = options;
+
     const topicMessage: KafkaMessage = {
       value: JSON.stringify(message),
-      headers: options.headers,
-      key: options.key,
-      partition: options.partition,
+      headers: headers,
+      key: key,
+      partition: partition,
     };
 
     await this.producer.send({
       topic,
       messages: [topicMessage],
-      timeout: 15000, // 30000ms Default
-      acks: options.acks ?? 0,
+      timeout: timeout, // 30000ms Default
+      acks: acks,
       compression: CompressionTypes.GZIP,
     });
   }

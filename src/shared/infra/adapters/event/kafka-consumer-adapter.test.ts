@@ -43,7 +43,9 @@ describe('KafkaConsumerAdapter', () => {
   test("Should throw error on call 'start' if consumer 'connect' method throws any error", async () => {
     const { sut } = makeSut();
 
-    jest.spyOn(sut.consumer, 'connect').mockRejectedValue(new Error('Error connecting to Kafka'));
+    jest
+      .spyOn(sut['consumer'], 'connect')
+      .mockRejectedValue(new Error('Error connecting to Kafka'));
 
     const result = sut.start();
 
@@ -55,7 +57,7 @@ describe('KafkaConsumerAdapter', () => {
     const { sut } = makeSut();
 
     jest
-      .spyOn(sut.consumer, 'disconnect')
+      .spyOn(sut['consumer'], 'disconnect')
       .mockRejectedValue(new Error('Error disconnect to Kafka'));
 
     const result = sut.stop();

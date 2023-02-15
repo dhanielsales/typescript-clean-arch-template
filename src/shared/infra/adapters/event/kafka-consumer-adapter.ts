@@ -5,7 +5,7 @@ import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 import { Consumer } from '@presentation/protocols/events/pub-sub';
 
 export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMessageHandler> {
-  public readonly consumer: KafkaConsumer;
+  private readonly consumer: KafkaConsumer;
   private readonly logger: Logger;
   private _isConnected: boolean = false;
 

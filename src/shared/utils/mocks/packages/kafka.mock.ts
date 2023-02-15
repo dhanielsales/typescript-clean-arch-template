@@ -121,13 +121,15 @@ export class KafkaMock {
 
   private publich(topic: string, messages: KafkaMessage[]) {
     messages.forEach((message) => {
-      Object.values(this.topics[topic]).forEach((consumers) => {
-        const consumerToGetMessage = Math.floor(Math.random() * consumers.length);
-        const eachMessageHandler = consumers[consumerToGetMessage].eachMessage;
-        if (eachMessageHandler) {
-          eachMessageHandler({ message, topic } as any);
-        }
-      });
+      if (this.topics[topic]) {
+        Object.values(this.topics[topic]).forEach((consumers) => {
+          const consumerToGetMessage = Math.floor(Math.random() * consumers.length);
+          const eachMessageHandler = consumers[consumerToGetMessage].eachMessage;
+          if (eachMessageHandler) {
+            eachMessageHandler({ message, topic } as any);
+          }
+        });
+      }
     });
   }
 
