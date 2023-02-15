@@ -27,6 +27,7 @@ export class KafkaControllerAdapter
         // TODO avaliar commit manual do consumo da mensagem
       } catch (err) {
         this.logger.error({ message: 'Error on adapt kafka controller', stack: err as Error });
+        throw err; // TODO avaliar comportamento em caso real
       }
 
       // Possível momento para algum log interno, ao termino da recepção de uma mensagem do Kafka

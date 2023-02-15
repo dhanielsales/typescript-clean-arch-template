@@ -5,10 +5,9 @@ import express from 'express';
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
 import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 import { HttpController } from '@presentation/protocols/http/controller';
+import { UnprocessableEntityError } from '@shared/infra/aggregators/errors/unprocessable-entity-error';
 
 import { ExpressErrorMiddlewareAdapter } from './express-error-middleware-adapter';
-
-import { UnprocessableEntityError } from '../../errors/unprocessable-entity-error';
 import { ExpressControllerAdapter } from './express-controller-adapter';
 
 describe('ExpressErrorMiddlewareAdapter', () => {

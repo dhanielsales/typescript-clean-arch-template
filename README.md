@@ -118,13 +118,12 @@ direction LR
   - [x] Unit tests
   - [x] Apply schema to routes and make adapter considerate schema
 - [x] Make Unit tests to mailtrap adapter
-- [ ] Make Unit tests to express adapter
+- [x] Make Unit tests to express adapter
 - [ ] Make unit tests to kafka adapter
 - [ ] Add structure for support WebSocket
 - [ ] Add swagger
 - [ ] Add Health routes
 - [ ] Configure pre commit and pre push
-- [ ] Create Docs
 - [ ] Add observability example
   - [ ] New relic
   - [ ] Prometheus + Grafana

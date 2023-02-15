@@ -2,13 +2,18 @@ import MockDate from 'mockdate';
 import { Kafka } from 'kafkajs';
 
 import { KafkaConsumerAdapter } from './kafka-consumer-adapter';
-import { getClassMock } from '@shared/utils/mocks/get-class-mock';
+
 import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
 import { KafkaControllerAdapter } from './kafka-controller-adapter';
 import { EventController } from '@presentation/protocols/events';
+import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
 
 const makeSut = () => {
-  const kafkaMock = getClassMock<Kafka>(KafkaMock);
+  const kafkaMock = createModuleMock(KafkaMock, {
+    brokers: ['host'],
+    clientId: 'client-id',
+  }) as Kafka;
+
   const sut = new KafkaConsumerAdapter(kafkaMock);
 
   return {

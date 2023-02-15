@@ -1,7 +1,7 @@
 import { Kafka, logLevel } from 'kafkajs';
 
-import { KafkaSubscriptionAdapter } from '@shared/infra/aggregators/adapters/event/kafka-subscription-adapter';
-import { KafkaConsumerAdapter } from '@shared/infra/aggregators/adapters/event/kafka-consumer-adapter';
+import { KafkaSubscriptionAdapter } from '@shared/infra/adapters/event/kafka-subscription-adapter';
+import { KafkaConsumerAdapter } from '@shared/infra/adapters/event/kafka-consumer-adapter';
 
 import { LogMediator } from '../mediators/log-mediator';
 import { Main } from '@presentation/entries/events/subscriptions';

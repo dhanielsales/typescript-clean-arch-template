@@ -3,8 +3,8 @@ import MockDate from 'mockdate';
 import { HttpValidationSchema, HttpValidatorsTypes } from '@presentation/protocols/http/validator';
 import { BadRequestError } from '@shared/infra/aggregators/errors/bad-request-error';
 
-import { ZodHttpValidator } from '@shared/infra/aggregators/adapters/validators/zod-http-validator';
-jest.mock('@shared/infra/aggregators/adapters/validators/zod-http-validator');
+import { ZodHttpValidator } from '@shared/infra/adapters/validators/zod-http-validator';
+jest.mock('@shared/infra/adapters/validators/zod-http-validator');
 
 import { getClassMock } from '@shared/utils/mocks/get-class-mock';
 import { HttpValidator } from './http-validator';

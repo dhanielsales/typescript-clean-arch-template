@@ -5,10 +5,10 @@ import express from 'express';
 import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
 import { HttpMiddleware } from '@presentation/protocols/http/middleware';
 import { HttpController } from '@presentation/protocols/http/controller';
+import { UnprocessableEntityError } from '@shared/infra/aggregators/errors/unprocessable-entity-error';
 
 import { ExpressMiddlewareAdapter } from './express-middleware-adapter';
 import { ExpressControllerAdapter } from './express-controller-adapter';
-import { UnprocessableEntityError } from '../../errors/unprocessable-entity-error';
 
 describe('ExpressMiddlewareAdapter', () => {
   beforeAll(() => MockDate.set(new Date()));

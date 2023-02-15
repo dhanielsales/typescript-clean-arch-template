@@ -3,10 +3,10 @@ import supertest from 'supertest';
 import express from 'express';
 
 import { HttpController } from '@presentation/protocols/http/controller';
+import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
+import { UnprocessableEntityError } from '@shared/infra/aggregators/errors/unprocessable-entity-error';
 
 import { ExpressControllerAdapter } from './express-controller-adapter';
-import { HttpRequest, HttpResponse } from '@presentation/protocols/http';
-import { UnprocessableEntityError } from '../../errors/unprocessable-entity-error';
 
 describe('ExpressControllerAdapter', () => {
   beforeAll(() => MockDate.set(new Date()));

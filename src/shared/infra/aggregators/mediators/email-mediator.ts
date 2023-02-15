@@ -1,6 +1,6 @@
 import { MailSender } from '@shared/infra/protocols/mail-sender';
 import { Mediator } from '@shared/infra/protocols/mediator';
-import { MailtrapAdapter } from '@shared/infra/aggregators/adapters/email/mailtrap-adapter';
+import { MailtrapAdapter } from '@shared/infra/adapters/email/mailtrap-adapter';
 
 export class EmailMediator implements Mediator<MailSender> {
   public handle(): MailSender {

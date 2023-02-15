@@ -1,8 +1,8 @@
 import express, { Express, Router } from 'express';
 import { Server } from 'http';
 
-import { ExpressRouterAdapter } from '@shared/infra/aggregators/adapters/http/express-router-adapter';
-import { ExpressErrorMiddlewareAdapter } from '@shared/infra/aggregators/adapters/http/express-error-middleware-adapter';
+import { ExpressRouterAdapter } from '@shared/infra/adapters/http/express-router-adapter';
+import { ExpressErrorMiddlewareAdapter } from '@shared/infra/adapters/http/express-error-middleware-adapter';
 import { HttpErrorHandlerFactory } from '@shared/infra/aggregators/factories/presentation/middlewares/http/http-error-handler';
 import { Logger } from '@shared/infra/protocols/log';
 import { LogMediator } from '../mediators/log-mediator';

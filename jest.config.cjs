@@ -23,6 +23,7 @@ module.exports = {
     '<rootDir>/dist/',
     '<rootDir>/dist/',
     '<rootDir>/src/shared/utils/mocks/',
+    '<rootDir>/src/shared/infra/aggregators',
     'jest.config.ts',
     '.json',
     '.snap',

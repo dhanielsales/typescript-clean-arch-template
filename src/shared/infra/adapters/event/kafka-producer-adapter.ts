@@ -23,17 +23,25 @@ interface KafkaProducerOptions {
 export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaProducerOptions> {
   private readonly producer: KafkaProducer;
   private readonly logger: Logger;
-  private isConnected: boolean = false;
+  private _isConnected: boolean = false;
 
   constructor(kafka: Kafka) {
     // TODO avaliar possibilidade de injeção de configurações
     this.producer = kafka.producer();
 
     this.producer.on(this.producer.events.CONNECT, () => {
-      this.isConnected = true;
+      this._isConnected = true;
+    });
+
+    this.producer.on(this.producer.events.DISCONNECT, () => {
+      this._isConnected = false;
     });
 
     this.logger = LogMediator.getInstance().handle();
+  }
+
+  get isConnected() {
+    return this._isConnected;
   }
 
   public async start(): Promise<void> {

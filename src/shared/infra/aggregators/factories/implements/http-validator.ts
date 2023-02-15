@@ -5,8 +5,8 @@ import { Validator } from '@shared/infra/protocols/validator';
 import { HttpRequest } from '@presentation/protocols/http';
 import { HttpValidationSchema } from '@presentation/protocols/http/validator';
 
-import { HttpValidator } from '../../validators/http/http-validator';
-import { ZodHttpValidator } from '../../adapters/validators/zod-http-validator';
+import { ZodHttpValidator } from '@shared/infra/adapters/validators/zod-http-validator';
+import { HttpValidator } from '@shared/infra/validators/http/http-validator';
 
 @StaticImplements<Factory<Validator<HttpRequest, HttpValidationSchema>>>()
 export class HttpValidatorFactory {
