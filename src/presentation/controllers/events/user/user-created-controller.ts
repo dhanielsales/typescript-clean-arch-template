@@ -1,5 +1,5 @@
 import { SendEmailUserCreated } from '@application/usecases/send-email-user-created';
-import { EventController } from '@presentation/protocols/events';
+import { EventController } from '@presentation/protocols/events/controller';
 import { UserSchema } from '@shared/infra/persistence/schemas/user';
 
 export class UserCreatedController extends EventController<UserSchema> {

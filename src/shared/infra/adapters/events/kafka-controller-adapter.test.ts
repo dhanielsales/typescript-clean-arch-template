@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 
-import { EventController } from '@presentation/protocols/events';
+import { EventController } from '@presentation/protocols/events/controller';
 import { KafkaControllerAdapter } from './kafka-controller-adapter';
 
 describe('KafkaControllerAdapter', () => {

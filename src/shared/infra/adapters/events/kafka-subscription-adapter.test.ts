@@ -1,7 +1,8 @@
 import MockDate from 'mockdate';
 import { Kafka } from 'kafkajs';
 
-import { EventController, Subscription } from '@presentation/protocols/events';
+import { Subscription } from '@presentation/protocols/events/subscription';
+import { EventController } from '@presentation/protocols/events/controller';
 
 import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
 import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
@@ -15,7 +16,7 @@ const makeSut = () => {
     clientId: 'client-id',
   }) as Kafka;
 
-  const consumer = new KafkaConsumerAdapter(kafkaMock);
+  const consumer = new KafkaConsumerAdapter(kafkaMock.consumer({ groupId: 'group-id' }));
   const sut = new KafkaSubscriptionAdapter(consumer);
 
   return {
@@ -44,8 +45,6 @@ describe('KafkaSubscriptionAdapter', () => {
         handler: controller,
       },
     ];
-
-    await consumer.start();
 
     const consumerSubscribe = jest.spyOn(consumer, 'subscribe');
 

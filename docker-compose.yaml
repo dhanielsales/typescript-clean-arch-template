@@ -51,8 +51,9 @@ services:
   
   kafka-topics-generator:
     image: confluentinc/cp-server:7.3.0
+    container_name: kafka-topics-generator
     depends_on:
       - kafka
     command: >
-      bash -c "sleep 10s && kafka-topics --create --topic=test_topic --if-not-exists --bootstrap-server=kafka:29092"
+      bash -c "sleep 10s && kafka-topics --create --topic=notify-user-creation --if-not-exists --bootstrap-server=kafka:29092"
   

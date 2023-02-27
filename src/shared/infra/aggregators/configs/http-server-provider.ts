@@ -10,8 +10,10 @@ import { Main } from '@presentation/entries/http/routes';
 
 import expressPrintRoutes from '@shared/utils/express-print-routes';
 
-export class HttpServer {
-  private static instance: HttpServer;
+import { Provider } from './service-setup';
+
+export class HttpServerProvider implements Provider {
+  private static instance: HttpServerProvider;
   private server?: Server;
   private readonly creator: Express;
   private readonly logger: Logger;
@@ -21,29 +23,32 @@ export class HttpServer {
     this.logger = LogMediator.getInstance().handle();
   }
 
-  public static getInstance(): HttpServer {
-    if (!HttpServer.instance) {
-      HttpServer.instance = new HttpServer();
+  public static getInstance(): HttpServerProvider {
+    if (!HttpServerProvider.instance) {
+      HttpServerProvider.instance = new HttpServerProvider();
     }
 
-    return HttpServer.instance;
+    return HttpServerProvider.instance;
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     this.setupBaseMiddlewares();
     this.setupRouters();
     this.setupErrorHandler();
 
     const port = process.env.HTTP_SERVER_PORT;
 
-    this.server = this.creator.listen(port, () => {
-      this.logger.info({ message: `Http Server running at ${port}` });
+    this.server = await new Promise<Server>((resolve) => {
+      const server = this.creator.listen(port, () => {
+        resolve(server);
+        this.logger.info({ message: `Http Server running at ${port}` });
+      });
     });
   }
 
-  public async close(): Promise<void> {
+  public async stop(): Promise<void> {
     if (this.server) {
-      return await new Promise<void>((resolve, _) => {
+      return await new Promise<void>((resolve) => {
         this.server?.close((err: unknown) => {
           if (err) {
             this.logger.info({ message: 'Http Server closed with error', stack: err as Error });

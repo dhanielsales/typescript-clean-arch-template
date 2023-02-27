@@ -2,7 +2,7 @@ import { EachMessageHandler } from 'kafkajs';
 
 import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 import { Logger } from '@shared/infra/protocols/log';
-import { EventController } from '@presentation/protocols/events';
+import { EventController } from '@presentation/protocols/events/controller';
 import { Adapter } from '@shared/infra/protocols/adapter';
 
 export class KafkaControllerAdapter
@@ -24,7 +24,6 @@ export class KafkaControllerAdapter
           : {};
 
         await controller.listen(parsedPayload);
-        // TODO avaliar commit manual do consumo da mensagem
       } catch (err) {
         this.logger.error({ message: 'Error on adapt kafka controller', stack: err as Error });
         throw err; // TODO avaliar comportamento em caso real

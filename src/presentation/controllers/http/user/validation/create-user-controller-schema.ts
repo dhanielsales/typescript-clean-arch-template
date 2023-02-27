@@ -8,7 +8,7 @@ export const CreateUserControllerSchema: HttpValidationSchema<
 > = {
   body: {
     email: {
-      type: 'string',
+      type: 'email',
       required: true,
     },
     name: {
