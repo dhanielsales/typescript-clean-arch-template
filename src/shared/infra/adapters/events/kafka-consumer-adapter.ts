@@ -1,6 +1,6 @@
 import { Consumer as KafkaConsumer, EachMessageHandler, EachMessagePayload } from 'kafkajs';
 
-import { Consumer } from '@presentation/protocols/events/consumer';
+import { Subscriber } from '@presentation/protocols/events/subscriber';
 import { Logger } from '@shared/infra/protocols/log';
 import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 
@@ -8,7 +8,7 @@ type HandlersPerTopic = {
   [key: string]: EachMessageHandler;
 };
 
-export class KafkaConsumerAdapter<Message> implements Consumer<Message, EachMessageHandler> {
+export class KafkaConsumerAdapter<Message> implements Subscriber<Message, EachMessageHandler> {
   private readonly handlersPerTopic: HandlersPerTopic = {};
   private readonly logger: Logger;
   private readonly consumer: KafkaConsumer;

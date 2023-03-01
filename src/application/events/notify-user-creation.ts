@@ -1,18 +1,18 @@
 import { User } from '@domain/entities/user/user-entity';
 import { Emitter } from '@presentation/protocols/events/emitter';
-import { Producer } from '@presentation/protocols/events/producer';
+import { Publisher } from '@presentation/protocols/events/publisher';
 
 export class NotifyUserCreation extends Emitter<User> {
-  protected readonly producer: Producer<User>;
+  protected readonly publisher: Publisher<User>;
   protected readonly event: string = 'notify-user-creation';
 
-  constructor(producer: Producer<unknown>) {
+  constructor(publisher: Publisher<unknown>) {
     super();
 
-    this.producer = producer;
+    this.publisher = publisher;
   }
 
   async emit(user: User): Promise<void> {
-    await this.producer.publish(this.event, user);
+    await this.publisher.publish(this.event, user);
   }
 }

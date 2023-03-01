@@ -1,4 +1,4 @@
-export interface Consumer<
+export interface Subscriber<
   Message,
   Callback = (message: Message) => Promise<void>,
   Options = unknown,

@@ -1,7 +1,7 @@
-import { Producer } from './producer';
+import { Publisher } from './publisher';
 
 export abstract class Emitter<EventPaylod> {
   protected abstract readonly event: string;
-  protected abstract readonly producer: Producer<unknown>;
+  protected abstract readonly publisher: Publisher<unknown>;
   abstract emit(payload: EventPaylod): Promise<void>;
 }

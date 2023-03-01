@@ -3,7 +3,7 @@ import { CompressionTypes, Producer as KafkaProducer, Message as KafkaMessage } 
 import { Logger } from '@shared/infra/protocols/log';
 import { LogMediator } from '@shared/infra/aggregators/mediators/log-mediator';
 
-import { Producer } from '@presentation/protocols/events/producer';
+import { Publisher } from '@presentation/protocols/events/publisher';
 
 type Acks = 1 | 0 | -1; // 1 Leader | 0 None | -1 All
 
@@ -17,7 +17,7 @@ interface KafkaProducerOptions {
   };
 }
 
-export class KafkaProducerAdapter<Message> implements Producer<Message, KafkaProducerOptions> {
+export class KafkaProducerAdapter<Message> implements Publisher<Message, KafkaProducerOptions> {
   private readonly producer: KafkaProducer;
   private readonly logger: Logger;
 

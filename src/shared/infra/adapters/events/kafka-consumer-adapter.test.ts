@@ -41,4 +41,22 @@ describe('KafkaConsumerAdapter', () => {
 
     expect(() => sut.subscribe('topic-id', kafkaController)).not.toThrow();
   });
+
+  test("Should not throw errors on call 'perform' if all done right", async () => {
+    const { sut } = makeSut();
+
+    const adapter = new KafkaControllerAdapter();
+
+    const controller = new (class extends EventController<string> {
+      public async listen(eventPaload: string) {
+        console.log(eventPaload);
+      }
+    })();
+
+    const kafkaController = adapter.handle(controller);
+
+    sut.subscribe('topic-id', kafkaController);
+
+    expect(() => sut.perform()).not.toThrow();
+  });
 });
