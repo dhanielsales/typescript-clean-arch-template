@@ -4,7 +4,7 @@ import { Kafka } from 'kafkajs';
 import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
 import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
 
-import { KafkaProducerAdapter } from './kafka-producer-adapter';
+import { KafkaSenderAdapter } from './kafka-sender-adapter';
 
 const makeSut = () => {
   const kafkaMock = createModuleMock(KafkaMock, {
@@ -12,7 +12,7 @@ const makeSut = () => {
     clientId: 'client-id',
   }) as Kafka;
 
-  const sut = new KafkaProducerAdapter(kafkaMock.producer());
+  const sut = new KafkaSenderAdapter(kafkaMock.producer());
 
   return {
     kafkaMock,
@@ -20,16 +20,26 @@ const makeSut = () => {
   };
 };
 
-describe('KafkaProducerAdapter', () => {
+describe('KafkaSenderAdapter', () => {
   beforeAll(() => MockDate.set(new Date()));
   afterAll(() => MockDate.reset());
 
   test("Should not throw errors on call 'publish' if all done right", async () => {
     const { sut } = makeSut();
 
-    const producerSend = jest.spyOn(sut['producer'], 'send');
+    const producerSend = jest.spyOn(sut['sender'], 'send');
 
     expect(() => sut.publish('topic-id', { name: 'John Doe' })).not.toThrow();
     expect(producerSend).toHaveBeenCalled();
+  });
+
+  test("Should not throw errors on call 'publish' even after call 'setProducer'", async () => {
+    const { sut, kafkaMock } = makeSut();
+
+    const producer = kafkaMock.producer();
+
+    sut.setSender(producer);
+
+    expect(() => sut.publish('topic-id', { name: 'John Doe' })).not.toThrow();
   });
 });

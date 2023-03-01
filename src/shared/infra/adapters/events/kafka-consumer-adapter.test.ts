@@ -7,6 +7,7 @@ import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
 import { KafkaControllerAdapter } from './kafka-controller-adapter';
 import { EventController } from '@presentation/protocols/events/controller';
 import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
+import { KafkaSenderAdapter } from './kafka-sender-adapter';
 
 const makeSut = () => {
   const kafkaMock = createModuleMock(KafkaMock, {
@@ -32,9 +33,7 @@ describe('KafkaConsumerAdapter', () => {
     const adapter = new KafkaControllerAdapter();
 
     const controller = new (class extends EventController<string> {
-      public async listen(eventPaload: string) {
-        console.log(eventPaload);
-      }
+      public async listen(_eventPaload: string) {}
     })();
 
     const kafkaController = adapter.handle(controller);
@@ -45,18 +44,37 @@ describe('KafkaConsumerAdapter', () => {
   test("Should not throw errors on call 'perform' if all done right", async () => {
     const { sut } = makeSut();
 
-    const adapter = new KafkaControllerAdapter();
+    const controllerAdapter = new KafkaControllerAdapter();
 
     const controller = new (class extends EventController<string> {
-      public async listen(eventPaload: string) {
-        console.log(eventPaload);
-      }
+      public async listen(_eventPaload: string) {}
     })();
 
-    const kafkaController = adapter.handle(controller);
+    const kafkaController = controllerAdapter.handle(controller);
 
     sut.subscribe('topic-id', kafkaController);
 
     expect(() => sut.perform()).not.toThrow();
+  });
+
+  test('Should call kafkaController implementation when send a message to same topic', async () => {
+    const { sut, kafkaMock } = makeSut();
+
+    const controllerAdapter = new KafkaControllerAdapter();
+
+    const controller = new (class extends EventController<string> {
+      public async listen(_eventPaload: string) {}
+    })();
+
+    const kafkaController = controllerAdapter.handle(controller);
+
+    sut.subscribe('topic-id', kafkaController);
+    await sut.perform();
+
+    const producer = kafkaMock.producer();
+
+    const senderAdapter = new KafkaSenderAdapter(producer);
+
+    senderAdapter.publish('topic-id', 'test-event-paload');
   });
 });
