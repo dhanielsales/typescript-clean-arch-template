@@ -4,10 +4,10 @@ import { Kafka } from 'kafkajs';
 import { KafkaConsumerAdapter } from './kafka-consumer-adapter';
 
 import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
-import { KafkaControllerAdapter } from './kafka-controller-adapter';
-import { EventController } from '@presentation/protocols/events/controller';
+import { Listener } from '@presentation/protocols/events/listener';
 import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
 import { KafkaSenderAdapter } from './kafka-sender-adapter';
+import { KafkaListenerAdapter } from './kafka-listener-adapter';
 
 const makeSut = () => {
   const kafkaMock = createModuleMock(KafkaMock, {
@@ -30,13 +30,13 @@ describe('KafkaConsumerAdapter', () => {
   test("Should not throw errors on call 'subscribe' if all done right", async () => {
     const { sut } = makeSut();
 
-    const adapter = new KafkaControllerAdapter();
+    const adapter = new KafkaListenerAdapter();
 
-    const controller = new (class extends EventController<string> {
+    const listener = new (class extends Listener<string> {
       public async listen(_eventPaload: string) {}
     })();
 
-    const kafkaController = adapter.handle(controller);
+    const kafkaController = adapter.handle(listener);
 
     expect(() => sut.subscribe('topic-id', kafkaController)).not.toThrow();
   });
@@ -44,15 +44,15 @@ describe('KafkaConsumerAdapter', () => {
   test("Should not throw errors on call 'perform' if all done right", async () => {
     const { sut } = makeSut();
 
-    const controllerAdapter = new KafkaControllerAdapter();
+    const controllerAdapter = new KafkaListenerAdapter();
 
-    const controller = new (class extends EventController<string> {
+    const controller = new (class extends Listener<string> {
       public async listen(_eventPaload: string) {}
     })();
 
-    const kafkaController = controllerAdapter.handle(controller);
+    const kafkaListener = controllerAdapter.handle(controller);
 
-    sut.subscribe('topic-id', kafkaController);
+    sut.subscribe('topic-id', kafkaListener);
 
     expect(() => sut.perform()).not.toThrow();
   });
@@ -60,15 +60,15 @@ describe('KafkaConsumerAdapter', () => {
   test('Should call kafkaController implementation when send a message to same topic', async () => {
     const { sut, kafkaMock } = makeSut();
 
-    const controllerAdapter = new KafkaControllerAdapter();
+    const controllerAdapter = new KafkaListenerAdapter();
 
-    const controller = new (class extends EventController<string> {
+    const listener = new (class extends Listener<string> {
       public async listen(_eventPaload: string) {}
     })();
 
-    const kafkaController = controllerAdapter.handle(controller);
+    const kafkaListener = controllerAdapter.handle(listener);
 
-    sut.subscribe('topic-id', kafkaController);
+    sut.subscribe('topic-id', kafkaListener);
     await sut.perform();
 
     const producer = kafkaMock.producer();

@@ -1,8 +1,8 @@
-import { EventController } from './controller';
+import { Listener } from './listener';
 
 export interface Subscription {
   event: string;
-  handler: EventController<unknown>;
+  handler: Listener<unknown>;
 }
 
 export interface SubscriptionAdapter {

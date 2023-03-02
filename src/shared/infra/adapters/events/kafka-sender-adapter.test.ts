@@ -33,12 +33,12 @@ describe('KafkaSenderAdapter', () => {
     expect(producerSend).toHaveBeenCalled();
   });
 
-  test("Should not throw errors on call 'publish' even after call 'setProducer'", async () => {
+  test("Should not throw errors on call 'publish' even after call 'setPublisher'", async () => {
     const { sut, kafkaMock } = makeSut();
 
     const producer = kafkaMock.producer();
 
-    sut.setSender(producer);
+    sut.setPublisher(producer);
 
     expect(() => sut.publish('topic-id', { name: 'John Doe' })).not.toThrow();
   });

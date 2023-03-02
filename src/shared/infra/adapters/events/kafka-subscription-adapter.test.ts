@@ -2,7 +2,7 @@ import MockDate from 'mockdate';
 import { Kafka } from 'kafkajs';
 
 import { Subscription } from '@presentation/protocols/events/subscription';
-import { EventController } from '@presentation/protocols/events/controller';
+import { Listener } from '@presentation/protocols/events/listener';
 
 import { KafkaMock } from '@shared/utils/mocks/packages/kafka.mock';
 import { createModuleMock } from '@shared/utils/mocks/get-module-mock';
@@ -33,7 +33,7 @@ describe('KafkaSubscriptionAdapter', () => {
   test('Should not throw errors on call adapter if all done right', async () => {
     const { sut, consumer } = makeSut();
 
-    const controller = new (class extends EventController<{ name: string }> {
+    const listener = new (class extends Listener<{ name: string }> {
       public async listen(eventPaload: { name: string }) {
         console.log(eventPaload.name);
       }
@@ -42,7 +42,7 @@ describe('KafkaSubscriptionAdapter', () => {
     const subscriptions: Array<Subscription> = [
       {
         event: 'topic-id',
-        handler: controller,
+        handler: listener,
       },
     ];
 

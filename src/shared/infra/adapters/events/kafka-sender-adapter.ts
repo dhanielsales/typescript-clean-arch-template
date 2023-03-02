@@ -17,7 +17,7 @@ interface KafkaProducerOptions {
 export class KafkaSenderAdapter<Message> implements Publisher<Message, KafkaProducerOptions> {
   constructor(private sender: KafkaSender) {}
 
-  public setSender(sender: KafkaSender) {
+  public setPublisher(sender: KafkaSender) {
     this.sender = sender;
   }
 
