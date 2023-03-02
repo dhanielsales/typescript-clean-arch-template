@@ -120,8 +120,8 @@ direction LR
 - [x] Make Unit tests to mailtrap adapter
 - [x] Make Unit tests to express adapter
 - [x] Make unit tests to kafka adapter
-- [ ] Refactor producer to a pub sub structure with transaction
-- [ ] Make logger have been called on tests
+- [x] Refactor producer to a pub sub structure with transaction
+- [x] Make logger have been called on tests
 - [ ] Add structure for support WebSocket
 - [ ] Add swagger
 - [ ] Add Health routes
