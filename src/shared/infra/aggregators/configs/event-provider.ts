@@ -25,7 +25,7 @@ export class EventProvider implements Provider {
 
   private constructor() {
     this.creator = new Kafka({
-      clientId: process.env.KAFKAJS_CLIENT_ID as string,
+      clientId: process.env.KAFKA_CLIENT_ID as string,
       brokers: [process.env.KAFKA_ADDRESS as string],
       logLevel: logLevel.ERROR, // TODO avaliar nivel de logging
     });
@@ -33,7 +33,7 @@ export class EventProvider implements Provider {
     this.defaultProducer = this.creator.producer();
 
     this.defaultConsumer = this.creator.consumer({
-      groupId: process.env.KAFKAJS_GROUP_ID as string,
+      groupId: process.env.KAFKA_GROUP_ID as string,
     });
 
     this.logger = LogMediator.getInstance().handle();

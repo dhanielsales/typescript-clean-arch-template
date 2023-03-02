@@ -38,5 +38,5 @@ module.exports = {
 };
 
 process.env = Object.assign(process.env, {
-  KAFKAJS_GROUP_ID: 'my-app-group',
+  KAFKA_GROUP_ID: 'my-app-group',
 });
