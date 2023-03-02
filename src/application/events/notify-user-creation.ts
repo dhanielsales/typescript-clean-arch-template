@@ -6,7 +6,7 @@ export class NotifyUserCreation extends Emitter<User> {
   protected readonly publisher: Publisher<User>;
   protected readonly event: string = 'notify-user-creation';
 
-  constructor(publisher: Publisher<unknown>) {
+  constructor(publisher: Publisher<User>) {
     super();
 
     this.publisher = publisher;
